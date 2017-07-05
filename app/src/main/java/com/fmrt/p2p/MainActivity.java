@@ -21,6 +21,7 @@ public class MainActivity extends FragmentActivity
     private LoanFragment loanFragment;
     private UserCenterFragment userCenterFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

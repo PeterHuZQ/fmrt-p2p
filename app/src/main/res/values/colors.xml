@@ -157,4 +157,6 @@
     <color name="actionsheet_blue">#0079F1</color>
     <color name="actionsheet_red">#FD4A2E</color>
     <color name="actionsheet_gray">#8F8F8F</color>
+
+    <color name="title_text">#26B8EE</color>
 </resources>
