@@ -1,4 +1,4 @@
-package com.fmrt.p2p;
+package com.fmrt.p2p.app;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.widget.RadioGroup;
 
+import com.fmrt.p2p.R;
 import com.fmrt.p2p.invest.InvestFragment;
 import com.fmrt.p2p.loan.LoanFragment;
 import com.fmrt.p2p.transfer.TransferFragment;
