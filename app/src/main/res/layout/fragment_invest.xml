@@ -3,6 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
     <include layout="@layout/common_top"/>
 
     <com.fmrt.p2p.widget.MyScrollView
@@ -10,13 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:text="理财"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="40sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+                <!--图片轮播-->
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_barner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </android.support.v4.view.ViewPager>
+
+                <!-- 圆形指示器-->
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/circle_barner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:padding="10dp">
+                </com.viewpagerindicator.CirclePageIndicator>
+
+            </FrameLayout>
+
+
+
+
+        </LinearLayout>
 
     </com.fmrt.p2p.widget.MyScrollView>
 </LinearLayout>

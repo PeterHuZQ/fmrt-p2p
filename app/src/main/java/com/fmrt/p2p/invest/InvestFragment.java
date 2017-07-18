@@ -2,6 +2,7 @@ package com.fmrt.p2p.invest;
 
 
 import android.app.Activity;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +13,12 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
+import com.fmrt.p2p.invest.adapter.BannerAdapter;
 import com.fmrt.p2p.invest.bean.InvestBeanData;
 import com.fmrt.p2p.service.ServerManager;
 import com.fmrt.p2p.util.Model;
 import com.fmrt.p2p.util.ToastUtil;
+import com.viewpagerindicator.CirclePageIndicator;
 
 
 /**
@@ -24,12 +27,19 @@ import com.fmrt.p2p.util.ToastUtil;
 
 public class InvestFragment extends BaseFragment
 {
+    //公共头布局
     private ImageView iv_left;
     private TextView tv_title;
     private ImageView iv_right;
 
+    //横幅广播Banner
+    private ViewPager vpBarner;
+    private CirclePageIndicator circleBarner;
+
     //返回的数据
     private InvestBeanData.ResultBean resultBean;
+
+    private BannerAdapter adapter;
 
     @Override
     public View initView()
@@ -38,6 +48,9 @@ public class InvestFragment extends BaseFragment
         View view = View.inflate(mContext, R.layout.fragment_invest, null);
 
         initTitle(view);
+
+        vpBarner=(ViewPager)view.findViewById(R.id.vp_barner);
+        circleBarner=(CirclePageIndicator)view.findViewById(R.id.circle_barner);
         return view;
     }
 
@@ -65,7 +78,7 @@ public class InvestFragment extends BaseFragment
                 try {
                     // 去P2PInvest服务器请求投资页面的数据
                     final String result= ServerManager.getInstance().getInvestData();
-                    Log.e("p2p", "首页联网成功");
+                    Log.e("p2p", "投资页面联网成功content："+ result);
                     // 更新页面显示
                     ((Activity)mContext).runOnUiThread(new Runnable() {
                         @Override
@@ -93,6 +106,14 @@ public class InvestFragment extends BaseFragment
         resultBean=investBeanData.getResult();
         if(resultBean != null){ //有数据
             Log.e("p2p", "解析成功=="+resultBean.getBanner_info().get(0).getOption() );
+
+            //创建横幅广播Banner的适配器
+            adapter = new BannerAdapter(mContext,resultBean);
+            //为图片轮播ViewPager适配数据
+            vpBarner.setAdapter(adapter);
+            //把ViewPager交给圆形指示器
+            circleBarner.setViewPager(vpBarner);
+
         }else{
             //没有数据
             ToastUtil.getInstance().showToast( "没有数据",Toast.LENGTH_SHORT);

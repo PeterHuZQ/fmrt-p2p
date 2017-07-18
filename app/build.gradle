@@ -32,4 +32,8 @@ dependencies {
     compile 'com.zhy:okhttputils:2.6.2'
     //使用fastjson解析数据
     compile 'com.alibaba:fastjson:1.1.55.android'
+    //库依赖https://github.com/JakeWharton/ViewPagerIndicator
+    compile project(':banner')
+    //用Picasso加载图片
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
