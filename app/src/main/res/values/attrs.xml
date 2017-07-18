@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--设置自定义控件的自定义属性-->
+<resources>
+    <declare-styleable name="RoundProgress">
+        <!-- 外层圆的颜色-->
+        <attr name="roundColor" format="color"/>
+        <!--弧形进度圈的颜色-->
+        <attr name="roundProgressColor" format="color"/>
+        <!--圆环的宽度-->
+        <attr name="roundWidth" format="dimension"></attr>
+        <!--中间百分比文字的颜色-->
+        <attr name="textColor" format="color"/>
+        <!--中间百分比文字的大小-->
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
+</resources>
