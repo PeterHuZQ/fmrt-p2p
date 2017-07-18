@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="理财"
+            android:text="首页"
             android:textColor="@color/white"
             android:textSize="18sp"/>
 

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical">
 
     <include layout="@layout/common_top"/>
@@ -37,9 +38,129 @@
 
             </FrameLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp">
 
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawablePadding="4dp"
+                    android:drawableRight="@drawable/recommend"
+                    android:text="乐享活180天计划第一期"
+                    android:textColor="#303030"
+                    android:textSize="20sp"/>
+            </RelativeLayout>
 
+            <!--标签-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginTop="5dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/home_attribute_bg"
+                    android:gravity="center"
+                    android:text="本息保障"
+                    android:textColor="#888888"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/home_attribute_bg"
+                    android:gravity="center"
+                    android:text="高额收益"
+                    android:textColor="#888888"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/home_attribute_bg"
+                    android:gravity="center"
+                    android:text="每日计息"
+                    android:textColor="#888888"/>
+            </LinearLayout>
+
+            <!-- 推荐产品信息-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <!-- 圆环进度-->
+                <!--attrs.xml中的自定义属性:app:roundColor等-->
+                <com.fmrt.p2p.widget.RoundProgress
+                    android:id="@+id/p_progresss"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:roundColor="@android:color/darker_gray"
+                    app:roundProgressColor="@color/btn_press_color"
+                    app:roundWidth="12dp"
+                    app:textColor="@color/theme_color"
+                    app:textSize="20sp">
+                </com.fmrt.p2p.widget.RoundProgress>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="预期年利率"
+                    android:textColor="#303030"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/p_yearlv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="10.00%+2.00%"
+                    android:textColor="#303030"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/btn_press_color"
+                android:text="立即加入"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/guarantee_icon"
+                android:gravity="center"
+                android:text="风险保障金由光大银行监管"
+                android:textColor="@color/product_detail_common"
+                android:textSize="13sp"/>
         </LinearLayout>
 
     </com.fmrt.p2p.widget.MyScrollView>

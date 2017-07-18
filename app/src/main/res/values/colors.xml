@@ -159,4 +159,6 @@
     <color name="actionsheet_gray">#8F8F8F</color>
 
     <color name="title_text">#26B8EE</color>
+
+    <color name="product_detail_common">#666666</color>
 </resources>

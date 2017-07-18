@@ -22,7 +22,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 
 /**
- * Created by Administrator on 2017-07-03.
+ * 首页Fragment
  */
 
 public class InvestFragment extends BaseFragment
