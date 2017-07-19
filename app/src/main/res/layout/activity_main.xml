@@ -24,13 +24,13 @@
         android:padding="3dp">
 
         <RadioButton
-            android:id="@+id/rb_invest"
+            android:id="@+id/rb_index"
             style="@style/bottom_tag_style"
             android:drawableTop="@drawable/rb_index_drawable_selector"
             android:text="首页" />
 
         <RadioButton
-            android:id="@+id/rb_transfer"
+            android:id="@+id/rb_product"
             style="@style/bottom_tag_style"
             android:drawableTop="@drawable/rb_invest_drawable_selector"
             android:text="理财" />

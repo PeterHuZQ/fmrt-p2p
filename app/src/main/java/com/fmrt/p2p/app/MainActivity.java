@@ -9,7 +9,7 @@ import android.widget.RadioGroup;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.index.IndexFragment;
 import com.fmrt.p2p.loan.LoanFragment;
-import com.fmrt.p2p.invest.InvestFragment;
+import com.fmrt.p2p.product.ProductFragment;
 import com.fmrt.p2p.usercenter.UserCenterFragment;
 
 public class MainActivity extends FragmentActivity
@@ -18,7 +18,7 @@ public class MainActivity extends FragmentActivity
     private RadioGroup rg_main;
 
     private IndexFragment IndexFragment;
-    private InvestFragment InvestFragment;
+    private ProductFragment ProductFragment;
     private LoanFragment loanFragment;
     private UserCenterFragment userCenterFragment;
 
@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity
     private void initData() {
         // 创建4个fragment对象
         IndexFragment = new IndexFragment();
-        InvestFragment = new InvestFragment();
+        ProductFragment = new ProductFragment();
         loanFragment =new LoanFragment();
         userCenterFragment=new UserCenterFragment();
     }
@@ -66,14 +66,14 @@ public class MainActivity extends FragmentActivity
                 Fragment fragment = null;
 
                 switch (checkedId) {
-                    // 投资页面
-                    case R.id.rb_invest:
+                    // 首页页面
+                    case R.id.rb_index:
                         fragment = IndexFragment;
                         break;
 
-                    // 转让页面
-                    case R.id.rb_transfer:
-                        fragment = InvestFragment;
+                    // 理财页面
+                    case R.id.rb_product:
+                        fragment = ProductFragment;
                         break;
 
                     // 借款页面
@@ -93,7 +93,7 @@ public class MainActivity extends FragmentActivity
         });
 
         // 默认选择首页页面
-        rg_main.check(R.id.rb_invest);
+        rg_main.check(R.id.rb_index);
     }
 
     // 实现fragment切换的方法

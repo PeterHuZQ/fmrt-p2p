@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.index.adapter.BannerAdapter;
-import com.fmrt.p2p.index.bean.InvestBeanData;
+import com.fmrt.p2p.index.bean.IndexBeanData;
 import com.fmrt.p2p.service.ServerManager;
 import com.fmrt.p2p.util.Model;
 import com.fmrt.p2p.util.ToastUtil;
@@ -37,7 +37,7 @@ public class IndexFragment extends BaseFragment
     private CirclePageIndicator circleBarner;
 
     //返回的数据
-    private InvestBeanData.ResultBean resultBean;
+    private IndexBeanData.ResultBean resultBean;
 
     private BannerAdapter adapter;
 
@@ -77,7 +77,7 @@ public class IndexFragment extends BaseFragment
             public void run() {
                 try {
                     // 去P2PInvest服务器请求首页的数据
-                    final String result= ServerManager.getInstance().getInvestData();
+                    final String result= ServerManager.getInstance().getIndexData();
                     Log.e("p2p", "首页联网成功content："+ result);
                     // 更新页面显示
                     ((Activity)mContext).runOnUiThread(new Runnable() {
@@ -102,8 +102,8 @@ public class IndexFragment extends BaseFragment
     }
 
     private void processData(String json){
-        InvestBeanData investBeanData = JSON.parseObject(json,InvestBeanData.class);
-        resultBean=investBeanData.getResult();
+        IndexBeanData indexBeanData = JSON.parseObject(json,IndexBeanData.class);
+        resultBean= indexBeanData.getResult();
         if(resultBean != null){ //有数据
             Log.e("p2p", "解析成功=="+resultBean.getBanner_info().get(0).getOption() );
 

@@ -1,4 +1,4 @@
-package com.fmrt.p2p.invest.childfragment;
+package com.fmrt.p2p.product.childfragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

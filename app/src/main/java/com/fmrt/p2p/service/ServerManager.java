@@ -32,7 +32,7 @@ public class ServerManager
     }
 
     //获取首页页面数据
-    public String getInvestData() throws IOException{
+    public String getIndexData() throws IOException{
         String url = AppConstants.INDEX_URL;
         Response response=OkHttpUtils
                 .get()
@@ -42,6 +42,16 @@ public class ServerManager
         return response.body().string();
     }
 
+    //获取投资列表数据
+    public String getInvestData() throws IOException{
+        String url = AppConstants.INVEST_URL;
+        Response response=OkHttpUtils
+                .get()
+                .url(url)
+                .build()
+                .execute();
+        return response.body().string();
+    }
 
 
 }

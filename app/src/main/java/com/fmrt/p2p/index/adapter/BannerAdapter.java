@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.fmrt.p2p.index.bean.InvestBeanData;
+import com.fmrt.p2p.index.bean.IndexBeanData;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -19,11 +19,11 @@ import com.squareup.picasso.Picasso;
 public class BannerAdapter extends PagerAdapter
 {
     private Context mContext;
-    private InvestBeanData.ResultBean resultBean; //数据
+    private IndexBeanData.ResultBean resultBean; //数据
     private LayoutInflater mLayoutInflater;     //用于初始化布局
 
     //构造函数,参数（上下文，数据）
-    public BannerAdapter(Context mContext, InvestBeanData.ResultBean resultBean){
+    public BannerAdapter(Context mContext, IndexBeanData.ResultBean resultBean){
         this.mContext = mContext;
         this.resultBean=resultBean;
         //初始化布局

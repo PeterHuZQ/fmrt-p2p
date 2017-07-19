@@ -1,4 +1,4 @@
-package com.fmrt.p2p.invest;
+package com.fmrt.p2p.product;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -8,10 +8,10 @@ import android.widget.TextView;
 
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
-import com.fmrt.p2p.invest.adapter.MyFragmentPagerAdapter;
-import com.fmrt.p2p.invest.childfragment.InvestListFragment;
-import com.fmrt.p2p.invest.childfragment.RecommendListFragment;
-import com.fmrt.p2p.invest.childfragment.TransferListFragment;
+import com.fmrt.p2p.product.adapter.MyFragmentPagerAdapter;
+import com.fmrt.p2p.product.childfragment.InvestListFragment;
+import com.fmrt.p2p.product.childfragment.RecommendListFragment;
+import com.fmrt.p2p.product.childfragment.TransferListFragment;
 import android.support.design.widget.TabLayout;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
  * 理财Fragment
  */
 
-public class InvestFragment extends BaseFragment
+public class ProductFragment extends BaseFragment
 {
     //公共头布局
     private ImageView iv_left;

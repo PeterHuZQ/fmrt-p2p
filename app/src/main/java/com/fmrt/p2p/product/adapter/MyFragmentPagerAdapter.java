@@ -1,4 +1,4 @@
-package com.fmrt.p2p.invest.adapter;
+package com.fmrt.p2p.product.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

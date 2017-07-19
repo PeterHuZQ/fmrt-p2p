@@ -3,10 +3,10 @@ package com.fmrt.p2p.index.bean;
 import java.util.List;
 
 /**
- * 映射服务器返回的投资页面的结果
+ * 映射服务器返回的首页页面的结果
  */
 
-public class InvestBeanData
+public class IndexBeanData
 {
 
     /**
