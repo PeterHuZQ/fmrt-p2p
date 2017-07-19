@@ -19,4 +19,6 @@
         <item name="android:textColor">@drawable/bottom_tab_textcolor_selector</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+
 </resources>

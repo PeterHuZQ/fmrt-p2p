@@ -26,13 +26,13 @@
         <RadioButton
             android:id="@+id/rb_invest"
             style="@style/bottom_tag_style"
-            android:drawableTop="@drawable/rb_invest_drawable_selector"
+            android:drawableTop="@drawable/rb_index_drawable_selector"
             android:text="首页" />
 
         <RadioButton
             android:id="@+id/rb_transfer"
             style="@style/bottom_tag_style"
-            android:drawableTop="@drawable/rb_transfer_drawable_selector"
+            android:drawableTop="@drawable/rb_invest_drawable_selector"
             android:text="理财" />
 
         <RadioButton

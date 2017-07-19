@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.widget.RadioGroup;
 
 import com.fmrt.p2p.R;
-import com.fmrt.p2p.invest.InvestFragment;
+import com.fmrt.p2p.index.IndexFragment;
 import com.fmrt.p2p.loan.LoanFragment;
-import com.fmrt.p2p.transfer.TransferFragment;
+import com.fmrt.p2p.invest.InvestFragment;
 import com.fmrt.p2p.usercenter.UserCenterFragment;
 
 public class MainActivity extends FragmentActivity
@@ -17,8 +17,8 @@ public class MainActivity extends FragmentActivity
 
     private RadioGroup rg_main;
 
-    private InvestFragment investFragment;
-    private TransferFragment transferFragment;
+    private IndexFragment IndexFragment;
+    private InvestFragment InvestFragment;
     private LoanFragment loanFragment;
     private UserCenterFragment userCenterFragment;
 
@@ -49,8 +49,8 @@ public class MainActivity extends FragmentActivity
      */
     private void initData() {
         // 创建4个fragment对象
-        investFragment = new InvestFragment();
-        transferFragment = new TransferFragment();
+        IndexFragment = new IndexFragment();
+        InvestFragment = new InvestFragment();
         loanFragment =new LoanFragment();
         userCenterFragment=new UserCenterFragment();
     }
@@ -68,12 +68,12 @@ public class MainActivity extends FragmentActivity
                 switch (checkedId) {
                     // 投资页面
                     case R.id.rb_invest:
-                        fragment = investFragment;
+                        fragment = IndexFragment;
                         break;
 
                     // 转让页面
                     case R.id.rb_transfer:
-                        fragment = transferFragment;
+                        fragment = InvestFragment;
                         break;
 
                     // 借款页面

@@ -1,4 +1,4 @@
-package com.fmrt.p2p.invest.bean;
+package com.fmrt.p2p.index.bean;
 
 import java.util.List;
 

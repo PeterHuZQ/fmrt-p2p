@@ -31,9 +31,9 @@ public class ServerManager
         return sServerManager;
     }
 
-    //获取投资页面数据
+    //获取首页页面数据
     public String getInvestData() throws IOException{
-        String url = AppConstants.INVEST_URL;
+        String url = AppConstants.INDEX_URL;
         Response response=OkHttpUtils
                 .get()
                 .url(url)
