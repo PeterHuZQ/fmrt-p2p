@@ -1,11 +1,14 @@
 package com.fmrt.p2p.usercenter;
 
 
-import android.content.Intent;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.TextUtils;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmrt.p2p.R;
-import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.usercenter.adapter.UserCenterFragmentAdapter;
 import com.fmrt.p2p.util.PrefUtils;
 import com.fmrt.p2p.util.ToastUtil;
@@ -67,11 +69,16 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         //给GridView设置adapter
         gv_user.setAdapter(new UserCenterFragmentAdapter(getActivity()));
 
+        //判断有没有登录
+        isLogin();
+
         //TODO 在button上显示当前用户名称
-        String username = PrefUtils.getString(
+        /*String username = PrefUtils.getString(
                 getActivity(), "username", "username");
-        bt_user_logout.setText("退出登录"+username);
+        bt_user_logout.setText("退出登录"+username);*/
     }
+
+
 
     private void initListener()
     {
@@ -128,5 +135,34 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
                 ToastUtil.getInstance().showToast( "跳转到设置页面",Toast.LENGTH_SHORT);
                 break;
         }
+    }
+
+    //判断有没有登录
+    private void isLogin()
+    {
+        String username = PrefUtils.getString(
+                getActivity(), "username", "");
+        if(TextUtils.isEmpty(username)){
+            //未登录
+            showLoginDialog();
+        }else{
+            //已登录
+
+        }
+    }
+
+    private void showLoginDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("登录");
+        builder.setMessage("必须先登录...go...");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ToastUtil.getInstance().showToast( "跳转到登录页面",Toast.LENGTH_SHORT);
+            }
+        });
+        builder.setCancelable(false);
+        builder.create().show();
     }
 }

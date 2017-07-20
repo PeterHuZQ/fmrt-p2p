@@ -1,18 +1,18 @@
 package com.fmrt.p2p.app;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.widget.RadioGroup;
 
 import com.fmrt.p2p.R;
+import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.index.IndexFragment;
 import com.fmrt.p2p.loan.LoanFragment;
 import com.fmrt.p2p.product.ProductFragment;
 import com.fmrt.p2p.usercenter.UserCenterFragment;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends BaseActivity
 {
 
     private RadioGroup rg_main;
@@ -22,24 +22,19 @@ public class MainActivity extends FragmentActivity
     private LoanFragment loanFragment;
     private UserCenterFragment userCenterFragment;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public int getLayoutId()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //1、初始化控件
-        initView();
-        //2、初始化数据
-        initData();
-        //3、初始化监听
-        initListener();
+        //指定布局
+        return R.layout.activity_main;
     }
+
 
     /**
      * 初始化控件
      */
-    private void initView() {
+    @Override
+    public void initView() {
         rg_main = (RadioGroup)findViewById(R.id.rg_main);
 
     }
@@ -47,7 +42,8 @@ public class MainActivity extends FragmentActivity
     /**
      * 初始化数据
      */
-    private void initData() {
+    @Override
+    public void initData() {
         // 创建4个fragment对象
         IndexFragment = new IndexFragment();
         ProductFragment = new ProductFragment();
@@ -57,7 +53,8 @@ public class MainActivity extends FragmentActivity
     /**
      * 初始化监听
      */
-    private void initListener() {
+    @Override
+    public void initListener() {
         //RadioGroup的选择事件
         rg_main.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
