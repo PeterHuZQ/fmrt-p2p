@@ -102,7 +102,7 @@ public class InvestListFragment extends Fragment
         if(investBeanData.isSuccess()){
             invest_list=investBeanData.getData();
             if(invest_list != null){ //有数据
-                Log.e("p2p", "解析成功=="+invest_list.get(0).getId() );
+                //  Log.e("p2p", "解析成功=="+invest_list.get(0).getId() );
 
                 lv_invest.setAdapter(new InvestListAdapter(getActivity(),invest_list));
             }else{

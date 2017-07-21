@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmrt.p2p.R;
+import com.fmrt.p2p.base.BaseActivity;
+import com.fmrt.p2p.usercenter.activity.LoginActivity;
 import com.fmrt.p2p.usercenter.adapter.UserCenterFragmentAdapter;
 import com.fmrt.p2p.util.PrefUtils;
 import com.fmrt.p2p.util.ToastUtil;
@@ -71,11 +73,6 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
 
         //判断有没有登录
         isLogin();
-
-        //TODO 在button上显示当前用户名称
-        /*String username = PrefUtils.getString(
-                getActivity(), "username", "username");
-        bt_user_logout.setText("退出登录"+username);*/
     }
 
 
@@ -147,7 +144,8 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
             showLoginDialog();
         }else{
             //已登录
-
+            //TODO 在button上显示当前用户名称
+            bt_user_logout.setText("退出登录"+username);
         }
     }
 
@@ -159,7 +157,8 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ToastUtil.getInstance().showToast( "跳转到登录页面",Toast.LENGTH_SHORT);
+                //ToastUtil.getInstance().showToast( "跳转到登录页面",Toast.LENGTH_SHORT);
+                ((BaseActivity) getActivity()).gotoActivity(LoginActivity.class, null);
             }
         });
         builder.setCancelable(false);

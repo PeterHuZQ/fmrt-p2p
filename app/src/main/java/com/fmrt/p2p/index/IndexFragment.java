@@ -78,7 +78,7 @@ public class IndexFragment extends BaseFragment
                 try {
                     // 去P2PInvest服务器请求首页的数据
                     final String result= ServerManager.getInstance().getIndexData();
-                    Log.e("p2p", "首页联网成功content："+ result);
+                    // Log.e("p2p", "首页联网成功content："+ result);
                     // 更新页面显示
                     ((Activity)mContext).runOnUiThread(new Runnable() {
                         @Override
@@ -105,7 +105,7 @@ public class IndexFragment extends BaseFragment
         IndexBeanData indexBeanData = JSON.parseObject(json,IndexBeanData.class);
         resultBean= indexBeanData.getResult();
         if(resultBean != null){ //有数据
-            Log.e("p2p", "解析成功=="+resultBean.getBanner_info().get(0).getOption() );
+            // Log.e("p2p", "解析成功=="+resultBean.getBanner_info().get(0).getOption() );
 
             //创建横幅广播Banner的适配器
             adapter = new BannerAdapter(mContext,resultBean);

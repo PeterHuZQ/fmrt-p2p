@@ -1,9 +1,19 @@
 package com.fmrt.p2p.service;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.alibaba.fastjson.JSON;
+import com.fmrt.p2p.usercenter.bean.LoginBeanData;
 import com.fmrt.p2p.util.AppConstants;
+import com.fmrt.p2p.util.MD5Utils;
+import com.fmrt.p2p.util.PrefUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
 import java.io.IOException;
+
+import okhttp3.Call;
 import okhttp3.Response;
 
 
@@ -53,5 +63,50 @@ public class ServerManager
         return response.body().string();
     }
 
+    //登录
+    public void login(String username,String password,final Context context){
+        String url = AppConstants.LOGINACTIVITY_LOGIN_URL;
+        OkHttpUtils
+                .get()
+                .url(url)
+                .addParams("username", username)
+                .addParams("password", MD5Utils.MD5(password))
+                .build()
+                .execute(new StringCallback()
+                {
+                    /**
+                     * 当请求失败的时候回调
+                     * @param call
+                     * @param e
+                     * @param id
+                     */
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("p2p", "登录失败="+ e.getMessage());
+                    }
+
+                    /**
+                     * 当联网成功的时候回调
+                     * @param response 请求成功的数据
+                     * @param id
+                     */
+                    @Override
+                    public void onResponse(String response, int id)
+                    {
+                        Log.e("p2p", "登录成功=" +response);
+                        //对模型层数据的处理
+                        //Model.getInstance().loginSuccess();
+
+                        //解析数据
+                        LoginBeanData loginBeanData = JSON.parseObject(response,LoginBeanData.class);
+                        if(loginBeanData.isSuccess()){
+                            LoginBeanData.UserBean user=loginBeanData.getData();
+                            Log.e("p2p","解析成功=="+user.getUF_ACC());
+                            //TODO 保存用户账号信息到SharePreference
+                            PrefUtils.setString(context, "username", user.getUF_ACC());
+                        }
+                    }
+                });
+    }
 
 }

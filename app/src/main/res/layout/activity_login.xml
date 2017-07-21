@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical" >
+
+    <include layout="@layout/head_close_noline" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/box_padding"
+        android:paddingRight="@dimen/box_padding" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_head"
+            android:text="欢迎来到PTP"
+            android:textColor="@color/theme_color"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_item_height"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/et_login_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="用户名"
+                android:maxLength="18"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/gray"
+                android:textColorHint="@color/text_color_d" />
+
+            <ImageButton
+                android:id="@+id/ibClearAct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_bg_btn_white"
+                android:padding="10dp"
+                android:src="@drawable/list_close" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:background="@color/text_color_d" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_item_height"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/et_login_pwd"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入你的密码"
+                android:maxLength="30"
+                android:password="true"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/gray"
+                android:textColorHint="@color/text_color_d" />
+
+            <ImageButton
+                android:id="@+id/ibClearPwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_bg_btn_white"
+                android:padding="10dp"
+                android:src="@drawable/list_close" />
+
+            <ImageView
+                android:id="@+id/imgEYE"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="gone"
+                android:src="@drawable/hide" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:background="@color/text_color_d" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dip"
+            android:gravity="center_horizontal" >
+
+            <Button
+                android:id="@+id/bt_login_login"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/input_item_height"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/selector_bg_btn"
+                android:gravity="center"
+                android:text="登 录"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="20dp"
+        android:gravity="bottom|center_horizontal" >
+
+        <TextView
+            android:id="@+id/tvForgetPW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="忘记密码  |  "
+            android:textColor="@color/auxiliary_color_a"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bt_login_regist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册账号"
+            android:textColor="@color/auxiliary_color_a"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>
