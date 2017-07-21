@@ -355,17 +355,6 @@
             android:stretchMode="columnWidth" >
         </com.fmrt.p2p.widget.MyGridView>
 
-        <!--退出-->
-        <Button
-            android:id="@+id/bt_user_logout"
-            android:text="退出"
-            android:textSize="20sp"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:background="@drawable/selector_bg_btn"
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
-
     </LinearLayout>
 
 </ScrollView>

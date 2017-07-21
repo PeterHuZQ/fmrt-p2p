@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.usercenter.activity.LoginActivity;
+import com.fmrt.p2p.usercenter.activity.SettingActivity;
 import com.fmrt.p2p.usercenter.adapter.UserCenterFragmentAdapter;
 import com.fmrt.p2p.util.PrefUtils;
 import com.fmrt.p2p.util.ToastUtil;
@@ -36,7 +37,6 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
 
     private MyGridView gv_user;
 
-    private Button bt_user_logout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     private void initView(View view) {
         //设置按钮
         mTvSetting = (TextView) view.findViewById(R.id.tvSetting);
-        bt_user_logout=(Button) view.findViewById(R.id.bt_user_logout);
     }
 
     //初始化数据
@@ -124,12 +123,8 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     {
         switch (v.getId()) {
             case R.id.tvSetting:
-                //跳转到设置页面
-                /*Intent intent = new Intent(getActivity(),
-                        SettingActivity.class);*/
-                //启动指定的activity
-                /*startActivity(intent);*/
-                ToastUtil.getInstance().showToast( "跳转到设置页面",Toast.LENGTH_SHORT);
+                //ToastUtil.getInstance().showToast( "跳转到设置页面",Toast.LENGTH_SHORT);
+                ((BaseActivity) getActivity()).gotoActivity(SettingActivity.class, null);
                 break;
         }
     }
@@ -144,8 +139,7 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
             showLoginDialog();
         }else{
             //已登录
-            //TODO 在button上显示当前用户名称
-            bt_user_logout.setText("退出登录"+username);
+
         }
     }
 

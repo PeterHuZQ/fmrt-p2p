@@ -1,8 +1,8 @@
 package com.fmrt.p2p.usercenter.activity;
 
 
-import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,12 +10,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.app.MainActivity;
 import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.service.ServerManager;
+import com.fmrt.p2p.usercenter.bean.LoginBeanData;
+import com.fmrt.p2p.util.AppConstants;
+import com.fmrt.p2p.util.MD5Utils;
 import com.fmrt.p2p.util.Model;
+import com.fmrt.p2p.util.PrefUtils;
 import com.fmrt.p2p.util.ToastUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import okhttp3.Call;
 
 /**
  * 登录Activity
@@ -55,9 +64,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    public void initData()
-    {
-
+    public void initData() {
     }
 
     //初始化监听
@@ -115,41 +122,59 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             ToastUtil.getInstance().showToast( "输入的用户名或密码不能为空",Toast.LENGTH_SHORT);
             return;
         }
+        // 3 向后台服务器发送登录请求
+        ServerManager_login(loginName,loginPwd);
+    }
 
-        // 3 获取全局线程池对象（创建子线程）,登录逻辑处理
-        Model.getInstance().getGlobalThreadPool().execute(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try{
-                    // 去服务器登录
-                    ServerManager.getInstance().login(loginName, loginPwd,LoginActivity.this);
-                    // 更新页面显示，提示登录成功
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+    private void ServerManager_login(String username,String password)
+    {
+        String url = AppConstants.LOGINACTIVITY_LOGIN_URL;
+        OkHttpUtils
+                .get()
+                .url(url)
+                .addParams("username", username)
+                .addParams("password", MD5Utils.MD5(password))
+                .build()
+                .execute(new StringCallback()
+                {
+                    /**
+                     * 当请求失败的时候回调
+                     * @param call
+                     * @param e
+                     * @param id
+                     */
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    /**
+                     * 当联网成功的时候回调
+                     * @param response 请求成功的数据
+                     * @param id
+                     */
+                    @Override
+                    public void onResponse(String response, int id)
+                    {
+                        //解析数据
+                        LoginBeanData loginBeanData = JSON.parseObject(response,LoginBeanData.class);
+                        if(loginBeanData.isSuccess()){
+                            LoginBeanData.UserBean user=loginBeanData.getData();
+                            Log.e("p2p","解析成功=="+user.getUF_ACC());
+                            //TODO 保存用户账号信息到SharePreference
+                            PrefUtils.setString(LoginActivity.this, "username", user.getUF_ACC());
+                            PrefUtils.setString(LoginActivity.this, "phonenum", user.getUF_PHONE());
+
                             ToastUtil.getInstance().showToast( "登录成功",Toast.LENGTH_SHORT);
                             //跳转到主页面
                             gotoActivity(MainActivity.class, null);
                             //结束当前登录Activity
                             closeCurrent();
+                        }else{
+                            ToastUtil.getInstance().showToast( "用户名或者密码错误",Toast.LENGTH_SHORT);
                         }
-                    });
-
-                }catch(final Exception e) {
-                    e.printStackTrace();
-                    // 更新页面显示，提示登录失败
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtil.getInstance().showToast( "登陆失败",Toast.LENGTH_SHORT);
-                        }
-                    });
-                }
-
-            }
-        });
+                    }
+                });
 
     }
 }

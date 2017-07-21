@@ -82,7 +82,7 @@ public class ServerManager
                      */
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        Log.e("p2p", "登录失败="+ e.getMessage());
+
                     }
 
                     /**
@@ -93,10 +93,6 @@ public class ServerManager
                     @Override
                     public void onResponse(String response, int id)
                     {
-                        Log.e("p2p", "登录成功=" +response);
-                        //对模型层数据的处理
-                        //Model.getInstance().loginSuccess();
-
                         //解析数据
                         LoginBeanData loginBeanData = JSON.parseObject(response,LoginBeanData.class);
                         if(loginBeanData.isSuccess()){
@@ -104,6 +100,9 @@ public class ServerManager
                             Log.e("p2p","解析成功=="+user.getUF_ACC());
                             //TODO 保存用户账号信息到SharePreference
                             PrefUtils.setString(context, "username", user.getUF_ACC());
+                            PrefUtils.setString(context, "phonenum", user.getUF_PHONE());
+                        }else{
+                            Log.e("p2p", "登录失败,用户名或者密码错误！");
                         }
                     }
                 });

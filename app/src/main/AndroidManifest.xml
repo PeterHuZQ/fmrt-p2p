@@ -43,6 +43,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".usercenter.activity.LoginActivity"/>
+        <activity android:name=".usercenter.activity.SettingActivity"/>
     </application>
 
 </manifest>
