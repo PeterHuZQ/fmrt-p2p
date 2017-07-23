@@ -4,16 +4,18 @@ package com.fmrt.p2p.usercenter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +24,14 @@ import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.usercenter.activity.LoginActivity;
 import com.fmrt.p2p.usercenter.activity.SettingActivity;
 import com.fmrt.p2p.usercenter.adapter.UserCenterFragmentAdapter;
-import com.fmrt.p2p.util.PrefUtils;
+import com.fmrt.p2p.usercenter.bean.LoginBeanData;
+import com.fmrt.p2p.util.BitMapUtil;
+import com.fmrt.p2p.util.DensityUtil;
 import com.fmrt.p2p.util.ToastUtil;
+import com.fmrt.p2p.widget.CircleImageView;
 import com.fmrt.p2p.widget.MyGridView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 /**
  * 个人中心Fragment
@@ -32,6 +39,8 @@ import com.fmrt.p2p.widget.MyGridView;
 
 public class UserCenterFragment extends Fragment implements View.OnClickListener
 {
+    // 用户头像
+    private ImageView imgHead;
     //“设置”按钮
     private TextView mTvSetting;
 
@@ -59,6 +68,8 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
 
     //初始化控件
     private void initView(View view) {
+        //用户头像
+        imgHead = (ImageView) view.findViewById(R.id.imgHead);
         //设置按钮
         mTvSetting = (TextView) view.findViewById(R.id.tvSetting);
     }
@@ -132,14 +143,13 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     //判断有没有登录
     private void isLogin()
     {
-        String username = PrefUtils.getString(
-                getActivity(), "username", "");
-        if(TextUtils.isEmpty(username)){
+        LoginBeanData.UserBean user = ((BaseActivity) getActivity()).getUserInfo();
+        if(TextUtils.isEmpty(user.getUF_ACC())){
             //未登录
             showLoginDialog();
         }else{
-            //已登录
-
+            //已登录--处理登录信息
+            doUserInfo(user);
         }
     }
 
@@ -157,5 +167,32 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         });
         builder.setCancelable(false);
         builder.create().show();
+    }
+
+
+    private void doUserInfo(LoginBeanData.UserBean user)
+    {
+        //设置用户头像
+        //Log.e("p2p","用户头像地址"+user.getUF_AVATAR_URL());
+        //transform对图像进行自定义处理
+        Picasso.with(getActivity()).load(user.getUF_AVATAR_URL()).transform(new Transformation() {
+            @Override
+            public Bitmap transform(Bitmap source) {
+                //图片缩放
+                Bitmap zoom = BitMapUtil.zoom(source, DensityUtil.dp2px(62), DensityUtil.dp2px(62));
+                //头像圆形裁剪
+                Bitmap circleBitMap = BitMapUtil.circleBitMap(zoom);
+                //1:transform当中处理完图片之后，需要调用recylce方法回收
+                source.recycle();
+                return circleBitMap;
+            }
+
+            @Override
+            public String key() {
+                //2:重写key方法的返回值，不能是null
+                return "";
+            }
+        }).into(imgHead);
+
     }
 }

@@ -8,8 +8,8 @@ public class AppConstants
 {
     //基本的连接
     //public static final String BASE_URL="http://172.41.6.77:8080/GoodNews";    //单位内网
-    public static final String BASE_URL="http://192.168.31.9:8080/P2PInvest"; //单位wifi外网
-    //public static final String BASE_URL="http://192.168.1.100:8080/P2PInvest";  //家里的网
+    //public static final String BASE_URL="http://192.168.31.9:8080/P2PInvest"; //单位wifi外网
+    public static final String BASE_URL="http://192.168.1.103:8080/P2PInvest";  //家里的网
 
     //首页页面的连接
     public static final String INDEX_URL=BASE_URL+"/index";

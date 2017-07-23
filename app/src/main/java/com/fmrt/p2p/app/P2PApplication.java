@@ -18,7 +18,7 @@ import okhttp3.OkHttpClient;
 
 public class P2PApplication extends Application
 {
-    private static Context mContext;
+    public static Context mContext;
 
     public static Context getContext() {
         return mContext;

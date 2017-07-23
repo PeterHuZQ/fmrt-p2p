@@ -162,9 +162,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                             LoginBeanData.UserBean user=loginBeanData.getData();
                             Log.e("p2p","解析成功=="+user.getUF_ACC());
                             //TODO 保存用户账号信息到SharePreference
-                            PrefUtils.setString(LoginActivity.this, "username", user.getUF_ACC());
-                            PrefUtils.setString(LoginActivity.this, "phonenum", user.getUF_PHONE());
-
+                            saveUserInfo(user);
                             ToastUtil.getInstance().showToast( "登录成功",Toast.LENGTH_SHORT);
                             //跳转到主页面
                             gotoActivity(MainActivity.class, null);

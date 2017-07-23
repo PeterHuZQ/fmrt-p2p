@@ -63,49 +63,6 @@ public class ServerManager
         return response.body().string();
     }
 
-    //登录
-    public void login(String username,String password,final Context context){
-        String url = AppConstants.LOGINACTIVITY_LOGIN_URL;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .addParams("username", username)
-                .addParams("password", MD5Utils.MD5(password))
-                .build()
-                .execute(new StringCallback()
-                {
-                    /**
-                     * 当请求失败的时候回调
-                     * @param call
-                     * @param e
-                     * @param id
-                     */
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
 
-                    }
-
-                    /**
-                     * 当联网成功的时候回调
-                     * @param response 请求成功的数据
-                     * @param id
-                     */
-                    @Override
-                    public void onResponse(String response, int id)
-                    {
-                        //解析数据
-                        LoginBeanData loginBeanData = JSON.parseObject(response,LoginBeanData.class);
-                        if(loginBeanData.isSuccess()){
-                            LoginBeanData.UserBean user=loginBeanData.getData();
-                            Log.e("p2p","解析成功=="+user.getUF_ACC());
-                            //TODO 保存用户账号信息到SharePreference
-                            PrefUtils.setString(context, "username", user.getUF_ACC());
-                            PrefUtils.setString(context, "phonenum", user.getUF_PHONE());
-                        }else{
-                            Log.e("p2p", "登录失败,用户名或者密码错误！");
-                        }
-                    }
-                });
-    }
 
 }

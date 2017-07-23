@@ -30,12 +30,13 @@
                 android:paddingLeft="10dp" >
 
 
-                <com.fmrt.p2p.widget.CircleImageView
+                <ImageView
                     android:id="@+id/imgHead"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/selector_bg_btn_theme"
+                    android:scaleType="fitXY"
                     android:src="@drawable/head" />
 
                 <!--消息-->

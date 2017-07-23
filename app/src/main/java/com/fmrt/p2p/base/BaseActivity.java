@@ -1,11 +1,14 @@
 package com.fmrt.p2p.base;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.fmrt.p2p.R;
+import com.fmrt.p2p.usercenter.activity.LoginActivity;
+import com.fmrt.p2p.usercenter.bean.LoginBeanData;
 import com.fmrt.p2p.util.AppManager;
+import com.fmrt.p2p.util.PrefUtils;
 
 /**
  * Created by Administrator on 2017-07-20.
@@ -59,6 +62,30 @@ public abstract class BaseActivity extends FragmentActivity
             it.putExtra("param", bundle);
         }
         startActivity(it);
+    }
+
+    /**
+     * 保存用户登录信息
+     */
+    public void saveUserInfo(LoginBeanData.UserBean user) {
+        PrefUtils.setString(this, "UF_ACC", user.getUF_ACC());
+        PrefUtils.setString(this, "UF_AVATAR_URL", user.getUF_AVATAR_URL());
+        PrefUtils.setString(this, "UF_IS_CERT", user.getUF_IS_CERT());
+        PrefUtils.setString(this, "UF_PHONE", user.getUF_PHONE());
+    }
+
+    /**
+     * 获取用户登录信息
+     *
+     * @return
+     */
+    public LoginBeanData.UserBean getUserInfo() {
+        LoginBeanData.UserBean user = new LoginBeanData.UserBean();
+        user.setUF_ACC(PrefUtils.getString(this, "UF_ACC", ""));
+        user.setUF_AVATAR_URL(PrefUtils.getString(this, "UF_AVATAR_URL", ""));
+        user.setUF_IS_CERT(PrefUtils.getString(this, "UF_IS_CERT", ""));
+        user.setUF_PHONE(PrefUtils.getString(this, "UF_PHONE", ""));
+        return user;
     }
 
 
