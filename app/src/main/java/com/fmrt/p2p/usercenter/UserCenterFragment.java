@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +22,12 @@ import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.usercenter.activity.LoginActivity;
 import com.fmrt.p2p.usercenter.activity.SettingActivity;
+import com.fmrt.p2p.usercenter.activity.UserInfoActivity;
 import com.fmrt.p2p.usercenter.adapter.UserCenterFragmentAdapter;
 import com.fmrt.p2p.usercenter.bean.LoginBeanData;
 import com.fmrt.p2p.util.BitMapUtil;
 import com.fmrt.p2p.util.DensityUtil;
 import com.fmrt.p2p.util.ToastUtil;
-import com.fmrt.p2p.widget.CircleImageView;
 import com.fmrt.p2p.widget.MyGridView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -81,15 +80,17 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         //给GridView设置adapter
         gv_user.setAdapter(new UserCenterFragmentAdapter(getActivity()));
 
-        //判断有没有登录
+        //判断有没有登录,这里注释掉就不需要登录了
         isLogin();
     }
 
 
-
+    //初始化监听
     private void initListener()
     {
         mTvSetting.setOnClickListener(this);
+        imgHead.setOnClickListener(this);
+
         //个人中心九宫格
         gv_user.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -136,6 +137,10 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
             case R.id.tvSetting:
                 //ToastUtil.getInstance().showToast( "跳转到设置页面",Toast.LENGTH_SHORT);
                 ((BaseActivity) getActivity()).gotoActivity(SettingActivity.class, null);
+                break;
+            case R.id.imgHead:
+                //ToastUtil.getInstance().showToast( "跳转到个人资料页面",Toast.LENGTH_SHORT);
+                ((BaseActivity) getActivity()).gotoActivity(UserInfoActivity.class, null);
                 break;
         }
     }

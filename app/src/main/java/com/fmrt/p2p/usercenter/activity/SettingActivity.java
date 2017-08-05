@@ -3,7 +3,6 @@ package com.fmrt.p2p.usercenter.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ import com.fmrt.p2p.app.MainActivity;
 import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.usercenter.bean.LoginBeanData;
 import com.fmrt.p2p.util.AppManager;
-import com.fmrt.p2p.util.PrefUtils;
 
 /**
  * 设置Activity
