@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_top" />
+
+    <RelativeLayout
+        android:id="@+id/rlUserInfo"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <com.fmrt.p2p.widget.CircleImageView
+            android:id="@+id/circleHeadImage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tvBankName"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/circleHeadImage"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_color_a"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvCardId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/circleHeadImage"
+            android:layout_alignLeft="@id/tvBankName"
+            android:layout_below="@id/tvBankName"
+            android:gravity="bottom"
+            android:textColor="@color/text_color_c"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="提现金额(元)"
+            android:textColor="@color/text_color_a"
+            android:textSize="16sp"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_toLeftOf="@+id/edNumber"
+                android:text="￥"
+                android:textColor="@color/text_color_c"
+                android:textSize="19sp" />
+
+            <EditText
+                android:id="@+id/edNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="0.00"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textColor="@color/text_color_a"
+                android:textColorHint="@color/text_color_d"
+                android:textSize="36sp"></EditText>
+
+            <ImageButton
+                android:id="@+id/ibClearNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_bg_btn_white"
+                android:padding="10dp"
+                android:src="@drawable/list_close"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:background="@color/background_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+            <TextView
+                android:id="@+id/tvMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/text_color_c"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/tvAllWithdraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="全部提现"
+                android:textColor="@color/auxiliary_color_a"
+                android:textSize="@dimen/text_size_small" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="你输入的金额超过可提现的金额"
+            android:textColor="@color/red"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/selector_bg_btn"
+        android:enabled="false"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="19sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="当日提交的提现申请，下一个工作日到账"
+        android:textColor="@color/text_color_c"
+        android:textSize="14sp" />
+
+</LinearLayout>

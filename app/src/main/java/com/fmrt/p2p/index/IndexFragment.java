@@ -67,7 +67,7 @@ public class IndexFragment extends BaseFragment
         super.initData();
         Log.e("p2p", "首页IndexFragment的数据被初始化了。。。" );
         //联网请求首页的数据
-        getDataFromNet();
+        //getDataFromNet();
     }
 
     private void getDataFromNet() {

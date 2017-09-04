@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.app.MainActivity;
 import com.fmrt.p2p.base.BaseActivity;
-import com.fmrt.p2p.usercenter.bean.LoginBeanData;
+import com.fmrt.p2p.usercenter.bean.UserBeanData;
 import com.fmrt.p2p.util.AppManager;
 
 /**
@@ -40,11 +40,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void initData() {
-        LoginBeanData.UserBean user=getUserInfo();
+        UserBeanData.DataBean user=getUserInfo();
         //TODO 显示当前用户名
-        tvUserName.setText(user.getUF_ACC());
+        tvUserName.setText(user.getName());
         //TODO 显示当前用户手机号
-        tvPhone.setText(user.getUF_PHONE());
+        tvPhone.setText(user.getPhone());
     }
 
     //初始化监听
@@ -78,7 +78,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //退出登录逻辑
-                LoginBeanData.UserBean user=new LoginBeanData.UserBean();
+                UserBeanData.DataBean user=new UserBeanData.DataBean();
+                //设置""空值
                 saveUserInfo(user);
                 //结束所有Activity
                 AppManager.getInstance().removeAll();

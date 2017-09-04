@@ -25,11 +25,9 @@ import android.widget.TextView;
 
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseActivity;
-import com.fmrt.p2p.usercenter.bean.LoginBeanData;
+import com.fmrt.p2p.usercenter.bean.UserBeanData;
 import com.fmrt.p2p.util.BitMapUtil;
 import com.fmrt.p2p.util.DensityUtil;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -101,11 +99,11 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void initData()
     {
-        LoginBeanData.UserBean user=getUserInfo();
+        UserBeanData.DataBean user=getUserInfo();
         //TODO 显示当前用户名
-        mTvUserName.setText(user.getUF_ACC());
+        mTvUserName.setText(user.getName());
         //TODO 显示当前用户手机号
-        mTvPhone.setText(user.getUF_PHONE());
+        mTvPhone.setText(user.getPhone());
         //处理用户头像
         doUserHeadImage(user);
     }
@@ -138,10 +136,10 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
 
 
-    private void doUserHeadImage(LoginBeanData.UserBean user)
+    private void doUserHeadImage(UserBeanData.DataBean user)
     {
         //transform对图像进行自定义处理
-        Picasso.with(this).load(user.getUF_AVATAR_URL()).transform(new Transformation() {
+       /* Picasso.with(this).load(user.getUF_AVATAR_URL()).transform(new Transformation() {
             @Override
             public Bitmap transform(Bitmap source) {
                 //图片缩放
@@ -158,7 +156,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 //2:重写key方法的返回值，不能是null
                 return "";
             }
-        }).into(imgHead);
+        }).into(imgHead);*/
     }
 
     private static final int CAMERA = 100;

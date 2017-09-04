@@ -63,7 +63,7 @@ public class InvestListFragment extends Fragment
     private void initData()
     {
         //联网请求数据
-        getDataFromNet();
+        //getDataFromNet();
     }
 
     private void getDataFromNet() {

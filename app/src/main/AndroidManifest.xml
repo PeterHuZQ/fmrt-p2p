@@ -43,8 +43,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".usercenter.activity.LoginActivity"/>
+        <activity android:name=".usercenter.activity.RegisterActivity"/>
         <activity android:name=".usercenter.activity.SettingActivity"/>
         <activity android:name=".usercenter.activity.UserInfoActivity"/>
+        <activity android:name=".usercenter.activity.WithdrawActivity"/>
     </application>
 
 </manifest>

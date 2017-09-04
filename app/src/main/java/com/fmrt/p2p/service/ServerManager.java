@@ -1,22 +1,22 @@
 package com.fmrt.p2p.service;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
-import com.alibaba.fastjson.JSON;
-import com.fmrt.p2p.usercenter.bean.LoginBeanData;
 import com.fmrt.p2p.util.AppConstants;
-import com.fmrt.p2p.util.MD5Utils;
-import com.fmrt.p2p.util.PrefUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
-
-
 
 
 /**
@@ -28,23 +28,31 @@ public class ServerManager
     //定义上下文
     private Context mContext;
 
+    private OkHttpClient mOkHttpClient;
+
     // 创建对象
     private static ServerManager sServerManager = new ServerManager();
 
     // 私有化构造
     private ServerManager() {
-
+        mOkHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
     }
 
     // 获取单例对象
-    public static ServerManager getInstance(){
+    public static ServerManager getInstance()
+    {
         return sServerManager;
     }
 
     //获取首页页面数据
-    public String getIndexData() throws IOException{
+    public String getIndexData() throws IOException
+    {
         String url = AppConstants.INDEX_URL;
-        Response response=OkHttpUtils
+        Response response = OkHttpUtils
                 .get()
                 .url(url)
                 .build()
@@ -53,9 +61,10 @@ public class ServerManager
     }
 
     //获取投资列表数据
-    public String getInvestData() throws IOException{
+    public String getInvestData() throws IOException
+    {
         String url = AppConstants.INVEST_URL;
-        Response response=OkHttpUtils
+        Response response = OkHttpUtils
                 .get()
                 .url(url)
                 .build()
@@ -65,4 +74,54 @@ public class ServerManager
 
 
 
+    private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+    //登录
+    public String login(String url, String username, String password, String validateCode)
+    {
+        String params = "username=" + username + "&password=" + password + "&validateCode=" + validateCode;
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, params);
+
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+
+        // new call
+        Call call = mOkHttpClient.newCall(request);
+        // 执行请求
+        Response response = null;
+
+        try
+        {
+            response = call.execute();
+            return response.body().string();
+        } catch (IOException e1)
+        {
+
+            e1.printStackTrace();
+        }
+        return null;
+    }
+
+    //注册
+    public String regist(String url, String username, String password)
+    {
+        String params = "username=" + username + "&password=" + password;
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, params);
+
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+
+        // new call
+        Call call = mOkHttpClient.newCall(request);
+        // 执行请求
+        Response response = null;
+
+        try
+        {
+            response = call.execute();
+            return response.body().string();
+        } catch (IOException e1)
+        {
+
+            e1.printStackTrace();
+        }
+        return null;
+    }
 }

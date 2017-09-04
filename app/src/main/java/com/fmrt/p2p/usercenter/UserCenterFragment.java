@@ -4,17 +4,18 @@ package com.fmrt.p2p.usercenter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,14 +24,11 @@ import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.usercenter.activity.LoginActivity;
 import com.fmrt.p2p.usercenter.activity.SettingActivity;
 import com.fmrt.p2p.usercenter.activity.UserInfoActivity;
+import com.fmrt.p2p.usercenter.activity.WithdrawActivity;
 import com.fmrt.p2p.usercenter.adapter.UserCenterFragmentAdapter;
-import com.fmrt.p2p.usercenter.bean.LoginBeanData;
-import com.fmrt.p2p.util.BitMapUtil;
-import com.fmrt.p2p.util.DensityUtil;
+import com.fmrt.p2p.usercenter.bean.UserBeanData;
 import com.fmrt.p2p.util.ToastUtil;
 import com.fmrt.p2p.widget.MyGridView;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 /**
  * 个人中心Fragment
@@ -42,6 +40,8 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     private ImageView imgHead;
     //“设置”按钮
     private TextView mTvSetting;
+    // “提现”按钮
+    private LinearLayout mLLGetMoney;
 
     private MyGridView gv_user;
 
@@ -71,6 +71,8 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         imgHead = (ImageView) view.findViewById(R.id.imgHead);
         //设置按钮
         mTvSetting = (TextView) view.findViewById(R.id.tvSetting);
+        //提现按钮
+        mLLGetMoney =(LinearLayout) view.findViewById(R.id.llGetMoney);
     }
 
     //初始化数据
@@ -88,8 +90,9 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     //初始化监听
     private void initListener()
     {
-        mTvSetting.setOnClickListener(this);
         imgHead.setOnClickListener(this);
+        mTvSetting.setOnClickListener(this);
+        mLLGetMoney.setOnClickListener(this);
 
         //个人中心九宫格
         gv_user.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -134,13 +137,17 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     public void onClick(View v)
     {
         switch (v.getId()) {
+            case R.id.imgHead:
+                //ToastUtil.getInstance().showToast( "跳转到个人资料页面",Toast.LENGTH_SHORT);
+                ((BaseActivity) getActivity()).gotoActivity(UserInfoActivity.class, null);
+                break;
             case R.id.tvSetting:
                 //ToastUtil.getInstance().showToast( "跳转到设置页面",Toast.LENGTH_SHORT);
                 ((BaseActivity) getActivity()).gotoActivity(SettingActivity.class, null);
                 break;
-            case R.id.imgHead:
-                //ToastUtil.getInstance().showToast( "跳转到个人资料页面",Toast.LENGTH_SHORT);
-                ((BaseActivity) getActivity()).gotoActivity(UserInfoActivity.class, null);
+            case R.id.llGetMoney:
+                //ToastUtil.getInstance().showToast( "跳转到提现页面",Toast.LENGTH_SHORT);
+                ((BaseActivity) getActivity()).gotoActivity(WithdrawActivity.class, null);
                 break;
         }
     }
@@ -148,8 +155,8 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     //判断有没有登录
     private void isLogin()
     {
-        LoginBeanData.UserBean user = ((BaseActivity) getActivity()).getUserInfo();
-        if(TextUtils.isEmpty(user.getUF_ACC())){
+        UserBeanData.DataBean user = ((BaseActivity) getActivity()).getUserInfo();
+        if(TextUtils.isEmpty(user.getUuid())){
             //未登录
             showLoginDialog();
         }else{
@@ -175,12 +182,12 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     }
 
 
-    private void doUserInfo(LoginBeanData.UserBean user)
+    private void doUserInfo(UserBeanData.DataBean user)
     {
         //设置用户头像
-        //Log.e("p2p","用户头像地址"+user.getUF_AVATAR_URL());
+        Log.e("p2p","用户的UUID"+user.getUuid());
         //transform对图像进行自定义处理
-        Picasso.with(getActivity()).load(user.getUF_AVATAR_URL()).transform(new Transformation() {
+        /*Picasso.with(getActivity()).load(user.getUF_AVATAR_URL()).transform(new Transformation() {
             @Override
             public Bitmap transform(Bitmap source) {
                 //图片缩放
@@ -197,7 +204,7 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
                 //2:重写key方法的返回值，不能是null
                 return "";
             }
-        }).into(imgHead);
+        }).into(imgHead);*/
 
     }
 }
