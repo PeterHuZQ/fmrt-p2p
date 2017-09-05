@@ -19,7 +19,8 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textSize="@dimen/text_size_title" />
+        android:textSize="@dimen/text_size_title"
+        android:textColor="@color/text_color_b"/>
 
     <TextView
         android:id="@+id/tvRight"

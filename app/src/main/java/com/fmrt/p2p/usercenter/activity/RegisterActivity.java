@@ -40,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.fmrt.p2p.util.AppConstants.BASE_URL;
 
 /**
- * 登录Activity
+ * 注册Activity
  */
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener

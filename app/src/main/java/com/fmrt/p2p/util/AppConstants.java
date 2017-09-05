@@ -10,6 +10,8 @@ public class AppConstants
     //public static final String BASE_URL="http://172.41.6.77:8080/GoodNews";    //单位内网
     public static final String BASE_URL="http://192.168.201.111:9081"; //单位wifi外网
     //public static final String BASE_URL="http://192.168.1.104:8080/P2PInvest";  //家里的网
+    public static final String PTP_LOAN_BASE_URL="http://192.168.201.111:9083"; //单位wifi外网
+
 
     //首页页面的连接
     public static final String INDEX_URL=BASE_URL+"/index";
@@ -22,4 +24,7 @@ public class AppConstants
 
     //RegisterActivity里的注册
     public static final String REGISTERACTIVITY_LOGIN_URL=BASE_URL+"/user/doRegister";
+
+    //推荐频道的连接
+    public static final String RECOMMENDLIST_URL=PTP_LOAN_BASE_URL+"/contract/list";
 }

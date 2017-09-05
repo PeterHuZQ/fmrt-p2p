@@ -1,5 +1,6 @@
 package com.fmrt.p2p.service;
 
+import com.fmrt.p2p.product.bean.RecommendListBeanData;
 import com.fmrt.p2p.usercenter.bean.ResultBeanData;
 import com.fmrt.p2p.usercenter.bean.TokenBeanData;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
@@ -36,4 +37,8 @@ public interface RetrofitService
     //通过token查询用户信息
     @GET("user/token/{token}")
     Observable<UserBeanData> getUserInfoByToken(@Path("token") String token);
+
+    //获取推荐频道列表数据
+    @GET("contract/list")
+    Observable<RecommendListBeanData> queryContractList();
 }

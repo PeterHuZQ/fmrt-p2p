@@ -63,16 +63,17 @@ public class ProductFragment extends BaseFragment
     {
         //创建3个子fragment对象, 将fragment装进列表中
         fragment_list = new ArrayList<Fragment>();
-
+        fragment_list.add(new RecommendListFragment());
         fragment_list.add(new InvestListFragment());
         fragment_list.add(new TransferListFragment());
-        fragment_list.add(new RecommendListFragment());
+
 
         //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
         title_list = new ArrayList<>();
+        title_list.add("推荐");
         title_list.add("投资");
         title_list.add("转让");
-        title_list.add("推荐");
+
 
         //设置TabLayout的模式（MODE_FIXED 和 MODE_SCROLLABLE）
         tab_invest_title.setTabMode(TabLayout.MODE_FIXED);

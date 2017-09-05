@@ -7,6 +7,8 @@ import com.fmrt.p2p.usercenter.bean.UserBeanData;
 import com.fmrt.p2p.util.AppManager;
 import com.fmrt.p2p.util.PrefUtils;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2017-07-20.
  */
@@ -21,6 +23,7 @@ public abstract class BaseActivity extends FragmentActivity
         setContentView(getLayoutId());
         // 添加Activity到堆栈
         AppManager.getInstance().addActivity(this);
+        ButterKnife.bind(this);
         //1、初始化控件
         initView();
         //2、初始化数据
