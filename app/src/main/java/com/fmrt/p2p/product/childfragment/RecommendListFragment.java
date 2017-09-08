@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.product.activity.InvestDetailActivity;
 import com.fmrt.p2p.product.adapter.RecommendListAdapter;
+import com.fmrt.p2p.product.bean.CusContract;
 import com.fmrt.p2p.product.bean.RecommendListBeanData;
 import com.fmrt.p2p.service.RetrofitService;
 
@@ -43,9 +44,9 @@ public class RecommendListFragment extends Fragment
     private ListView lv_recommend;
     private LinearLayout ll_hint;
     //返回的数据
-    private List<RecommendListBeanData.CusContract> recommend_list;
+    private List<CusContract> recommend_list;
 
-    private static final String CUSCOBTRACT_BEAN = "cusContractBean";
+    private static final String CUSCOBTRACT_UUID = "cusContractUuid";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -182,25 +183,23 @@ public class RecommendListFragment extends Fragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 //根据位置得到对应的数据
-                RecommendListBeanData.CusContract cusContract = recommend_list.get(position);
-                RecommendListBeanData.CusContract newCusContract = new RecommendListBeanData.CusContract();
-                newCusContract.setUuid(cusContract.getUuid());
+                CusContract cusContract = recommend_list.get(position);
                 //启动理财详情页，传递数据，把数据放在intent里
-                startInvestDetailActivity(newCusContract);
+                startInvestDetailActivity(cusContract.getUuid());
             }
         });
     }
 
     /**
-     * 启动体理财详情页
+     * 启动理财详情页
      *
-     * @param cusContract
+     * @param uuid
      */
-    private void startInvestDetailActivity(RecommendListBeanData.CusContract cusContract)
+    private void startInvestDetailActivity(String uuid)
     {
         Intent intent = new Intent(getActivity(), InvestDetailActivity.class);
         //携带数据到InvestDetailActivity
-        intent.putExtra(CUSCOBTRACT_BEAN, cusContract);
+        intent.putExtra(CUSCOBTRACT_UUID, uuid);
         //启动指定的activity
         getActivity().startActivity(intent);
     }

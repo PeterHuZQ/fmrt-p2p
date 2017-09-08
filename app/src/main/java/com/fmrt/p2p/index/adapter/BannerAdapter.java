@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.fmrt.p2p.index.bean.IndexBeanData;
+import com.fmrt.p2p.index.bean.ImgListBeanData;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * BannerAdapter：建横幅广播Banner的适配器
@@ -19,13 +21,13 @@ import com.squareup.picasso.Picasso;
 public class BannerAdapter extends PagerAdapter
 {
     private Context mContext;
-    private IndexBeanData.ResultBean resultBean; //数据
+    private List<ImgListBeanData.BannerInfo> bannerInfo_list;
     private LayoutInflater mLayoutInflater;     //用于初始化布局
 
     //构造函数,参数（上下文，数据）
-    public BannerAdapter(Context mContext, IndexBeanData.ResultBean resultBean){
+    public BannerAdapter(Context mContext, List<ImgListBeanData.BannerInfo> bannerInfo_list){
         this.mContext = mContext;
-        this.resultBean=resultBean;
+        this.bannerInfo_list=bannerInfo_list;
         //初始化布局
         mLayoutInflater=LayoutInflater.from(mContext);
     }
@@ -33,7 +35,7 @@ public class BannerAdapter extends PagerAdapter
     @Override
     public int getCount()
     {
-        return resultBean.getBanner_info() == null ? 0 : resultBean.getBanner_info().size();
+        return bannerInfo_list == null ? 0 : bannerInfo_list.size();
     }
 
     @Override
@@ -46,7 +48,7 @@ public class BannerAdapter extends PagerAdapter
     public Object instantiateItem(ViewGroup container, int position)
     {
         //图片的地址
-        String imageUrl = resultBean.getBanner_info().get(position).image;
+        String imageUrl = bannerInfo_list.get(position).imgurl;
         Log.e("p2p", "imageUrl的content："+ imageUrl);
         ImageView imageView = new ImageView(mContext);
         //设置缩放类型

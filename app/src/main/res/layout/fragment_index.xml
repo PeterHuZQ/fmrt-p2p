@@ -104,7 +104,7 @@
 
                 <!-- 圆环进度-->
                 <!--attrs.xml中的自定义属性:app:roundColor等-->
-                <com.fmrt.p2p.widget.RoundProgress
+                <!--<com.fmrt.p2p.widget.RoundProgress
                     android:id="@+id/p_progresss"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
@@ -113,7 +113,13 @@
                     app:roundWidth="12dp"
                     app:textColor="@color/theme_color"
                     app:textSize="20sp">
-                </com.fmrt.p2p.widget.RoundProgress>
+                </com.fmrt.p2p.widget.RoundProgress>-->
+                <!--水波纹进度球-->
+                <com.fmrt.p2p.widget.RippleProgress
+                    android:id="@+id/ripple_progress"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    />
             </RelativeLayout>
 
             <LinearLayout

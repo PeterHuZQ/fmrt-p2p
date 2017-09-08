@@ -1,24 +1,32 @@
 package com.fmrt.p2p.index;
 
-
-import android.app.Activity;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.alibaba.fastjson.JSON;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.index.adapter.BannerAdapter;
-import com.fmrt.p2p.index.bean.IndexBeanData;
-import com.fmrt.p2p.service.ServerManager;
-import com.fmrt.p2p.util.Model;
+import com.fmrt.p2p.index.bean.ImgListBeanData;
+import com.fmrt.p2p.service.RetrofitService;
 import com.fmrt.p2p.util.ToastUtil;
+import com.fmrt.p2p.widget.RippleProgress;
 import com.viewpagerindicator.CirclePageIndicator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.fmrt.p2p.util.AppConstants.PTP_LOAN_BASE_URL;
 
 
 /**
@@ -36,10 +44,13 @@ public class IndexFragment extends BaseFragment
     private ViewPager vpBarner;
     private CirclePageIndicator circleBarner;
 
-    //返回的数据
-    private IndexBeanData.ResultBean resultBean;
-
     private BannerAdapter adapter;
+
+    // 水波纹进度球
+    private RippleProgress mRippleProgress;
+
+    //返回的数据
+    private List<ImgListBeanData.BannerInfo> bannerInfo_list;
 
     @Override
     public View initView()
@@ -51,6 +62,10 @@ public class IndexFragment extends BaseFragment
 
         vpBarner=(ViewPager)view.findViewById(R.id.vp_barner);
         circleBarner=(CirclePageIndicator)view.findViewById(R.id.circle_barner);
+
+        mRippleProgress = (RippleProgress) view.findViewById(R.id.ripple_progress);
+        //开始波纹
+        mRippleProgress.startWave();
         return view;
     }
 
@@ -67,57 +82,78 @@ public class IndexFragment extends BaseFragment
         super.initData();
         Log.e("p2p", "首页IndexFragment的数据被初始化了。。。" );
         //联网请求首页的数据
-        //getDataFromNet();
+        getDataByRetrofitAndRxJava();
     }
 
-    private void getDataFromNet() {
-        //获取全局线程池对象（创建子线程）,去服务器请求首页的数据
-        Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+    /**
+     *用RxJava和Retrofit获取首页图片列表
+     */
+    private void getDataByRetrofitAndRxJava()
+    {
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        httpClientBuilder.connectTimeout(5, TimeUnit.SECONDS);
+        //创建Retrofit实例
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(httpClientBuilder.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(PTP_LOAN_BASE_URL + "/")
+                .build();
+
+        //用Retrofit创建一个RetrofitService的代理对象
+        RetrofitService service = retrofit.create(RetrofitService.class);
+
+        //定义观察者：Observer
+        Observer<ImgListBeanData> observer = new Observer<ImgListBeanData>()
+        {
             @Override
-            public void run() {
-                try {
-                    // 去P2PInvest服务器请求首页的数据
-                    final String result= ServerManager.getInstance().getIndexData();
-                    // Log.e("p2p", "首页联网成功content："+ result);
-                    // 更新页面显示
-                    ((Activity)mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(TextUtils.isEmpty(result)){
-                                //Toast.makeText(mContext, "获取数据为空", Toast.LENGTH_SHORT).show();
-                                ToastUtil.getInstance().showToast( "获取数据为空", Toast.LENGTH_SHORT);
-                            }else{
-                                //解析数据
-                                processData(result);
-                            }
+            public void onSubscribe(@NonNull Disposable d)
+            {
 
-                        }
-                    });
-
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                }
             }
-        });
+
+            @Override
+            public void onNext(@NonNull ImgListBeanData result)
+            {
+                ////解析数据
+                processData(result);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e)
+            {
+                Log.e("UserCenterFragment", "onError:" + e.getMessage());
+            }
+
+            @Override
+            public void onComplete()
+            {
+                Log.e("UserCenterFragment", "onComplete");
+            }
+        };
+
+        //调用“通过uuid查询投资详情”接口：getCusContractDetailByUuid()
+        service.getIndexImgList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
     }
 
-    private void processData(String json){
-        IndexBeanData indexBeanData = JSON.parseObject(json,IndexBeanData.class);
-        resultBean= indexBeanData.getResult();
-        if(resultBean != null){ //有数据
-            // Log.e("p2p", "解析成功=="+resultBean.getBanner_info().get(0).getOption() );
-
-            //创建横幅广播Banner的适配器
-            adapter = new BannerAdapter(mContext,resultBean);
-            //为图片轮播ViewPager适配数据
-            vpBarner.setAdapter(adapter);
-            //把ViewPager交给圆形指示器
-            circleBarner.setViewPager(vpBarner);
-
-        }else{
-            //没有数据
-            ToastUtil.getInstance().showToast( "没有数据",Toast.LENGTH_SHORT);
+    private void processData(ImgListBeanData imgListBeanData){
+        if (imgListBeanData.getStatus().equals("200")){
+            bannerInfo_list=imgListBeanData.getRows();
+            if (bannerInfo_list != null)
+            {   //有数据
+                //创建横幅广播Banner的适配器
+                adapter = new BannerAdapter(mContext,bannerInfo_list);
+                //为图片轮播ViewPager适配数据
+                vpBarner.setAdapter(adapter);
+                //把ViewPager交给圆形指示器
+                circleBarner.setViewPager(vpBarner);
+            }else{
+                //没有数据
+                ToastUtil.getInstance().showToast( "没有数据",Toast.LENGTH_SHORT);
+            }
         }
     }
-
 }

@@ -14,7 +14,8 @@ import com.fmrt.p2p.R;
 
 /**
  * 自定义控件：圆环绘制
- * 重现OnDraw()方法实现对view的绘制，从而输出符合自己需求的view控件
+ * 获取我们自定义属性attrs.xml
+ * 重现OnDraw()方法绘制我们的控件
  * 圆环的组成：外层圆(drawCircle)+中间百分比文字(drawText)+不断变化进度的弧形圈(drawArc)
  */
 

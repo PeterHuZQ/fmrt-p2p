@@ -36,8 +36,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.fmrt.p2p.util.AppConstants.BASE_URL;
+import static com.fmrt.p2p.util.AppConstants.FMRT_SSO_BASE_URL;
 
 /**
  * 注册Activity
@@ -226,7 +225,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             return;
         }
         // 3 向后台服务器发送注册请求
-        // RegisterByRxJava(registerName,registerPwd);
         RegisterByRetrofitAndRxJava(registerName, registerPwd);
     }
 
@@ -242,7 +240,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 .client(httpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BASE_URL + "/")
+                .baseUrl(FMRT_SSO_BASE_URL + "/")
                 .build();
 
         //用Retrofit创建一个RetrofitService的代理对象
@@ -319,60 +317,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         //捕获异常处理
                         Log.e("RegisterActivity", "throwable:" + throwable.getMessage());
                         ToastUtil.getInstance().showToast("throwable:" +  throwable.getMessage(), Toast.LENGTH_SHORT);
-                    }
-                });
-    }
-
-    /**
-     * 用RxJava处理注册请求
-     *
-     * @param name
-     * @param password
-     */
-    public void RegisterByRxJava(final String name, final String password)
-    {
-        Observable.create(new ObservableOnSubscribe<String>()
-        {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception
-            {
-                String url = AppConstants.REGISTERACTIVITY_LOGIN_URL;
-                String ret = ServerManager.getInstance().regist(url, name, password);
-                e.onNext(ret);
-
-
-                Log.d("RegisterActivity", "1.thread: " + Thread.currentThread().getName());
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>()
-                {
-                    @Override
-                    public void accept(String s) throws Exception
-                    {
-                        Log.d("RegisterActivity", "2.thread: " + Thread.currentThread().getName());
-                        if (s == null)
-                        {
-
-                        } else
-                        {
-                            ResultBeanData registBeanData = JSON.parseObject(s, ResultBeanData.class);
-                            if (registBeanData.getStatus().equals("200"))
-                            {
-                                ToastUtil.getInstance().showToast("注册成功", Toast.LENGTH_SHORT);
-                                //跳转到登录页面
-                                gotoActivity(LoginActivity.class, null);
-                                //结束当前登录Activity
-                                closeCurrent();
-                            } else if (registBeanData.getStatus().equals("4001"))
-                            {
-                                ToastUtil.getInstance().showToast("手机号已被注册", Toast.LENGTH_SHORT);
-                            } else
-                            {
-                                ToastUtil.getInstance().showToast("系统繁忙", Toast.LENGTH_SHORT);
-                            }
-                        }
                     }
                 });
     }

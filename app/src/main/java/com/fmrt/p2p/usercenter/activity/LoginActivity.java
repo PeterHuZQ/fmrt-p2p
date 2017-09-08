@@ -46,8 +46,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.fmrt.p2p.util.AppConstants.BASE_URL;
+import static com.fmrt.p2p.util.AppConstants.FMRT_SSO_BASE_URL;
 
 /**
  * 登录Activity
@@ -188,7 +187,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                 .client(httpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BASE_URL + "/")
+                .baseUrl(FMRT_SSO_BASE_URL + "/")
                 .build();
 
         //用Retrofit创建一个RetrofitService的代理对象
@@ -447,7 +446,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                 .client(httpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BASE_URL+"/")
+                .baseUrl(FMRT_SSO_BASE_URL+"/")
                 .build();
 
         //用Retrofit创建一个RetrofitService的代理对象
