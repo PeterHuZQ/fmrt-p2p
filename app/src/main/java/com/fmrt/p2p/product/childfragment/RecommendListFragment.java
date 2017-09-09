@@ -33,7 +33,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.fmrt.p2p.util.AppConstants.PTP_LOAN_BASE_URL;
+import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
 
 /**
  * 推荐列表

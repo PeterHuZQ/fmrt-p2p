@@ -44,7 +44,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.fmrt.p2p.util.AppConstants.PTP_USERMANAGE_BASE_URL;
+import static com.fmrt.p2p.common.AppNetConfig.PTP_USERMANAGE_BASE_URL;
 
 /**
  * 个人中心Fragment
@@ -296,7 +296,7 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
             @Override
             public Bitmap transform(Bitmap source) {
                 //图片缩放
-                Bitmap zoom = BitMapUtil.zoom(source, DensityUtil.dp2px(62), DensityUtil.dp2px(62));
+                Bitmap zoom = BitMapUtil.zoom(source, UIUtils.dp2px(62), UIUtils.dp2px(62));
                 //头像圆形裁剪
                 Bitmap circleBitMap = BitMapUtil.circleBitMap(zoom);
                 //1:transform当中处理完图片之后，需要调用recylce方法回收

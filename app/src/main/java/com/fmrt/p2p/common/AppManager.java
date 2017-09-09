@@ -1,4 +1,4 @@
-package com.fmrt.p2p.util;
+package com.fmrt.p2p.common;
 
 import android.app.Activity;
 import android.app.ActivityManager;

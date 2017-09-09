@@ -11,21 +11,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.service.RetrofitService;
-import com.fmrt.p2p.service.ServerManager;
 import com.fmrt.p2p.usercenter.bean.ResultBeanData;
-import com.fmrt.p2p.util.AppConstants;
 import com.fmrt.p2p.util.MyTextWatcher;
 import com.fmrt.p2p.util.ToastUtil;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -36,7 +31,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import static com.fmrt.p2p.util.AppConstants.FMRT_SSO_BASE_URL;
+import static com.fmrt.p2p.common.AppNetConfig.FMRT_SSO_BASE_URL;
 
 /**
  * 注册Activity

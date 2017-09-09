@@ -27,7 +27,7 @@ import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
 import com.fmrt.p2p.util.BitMapUtil;
-import com.fmrt.p2p.util.DensityUtil;
+import com.fmrt.p2p.util.UIUtils;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -102,7 +102,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         UserBeanData.DataBean user=getUserInfo();
         //TODO 显示当前用户名
         mTvUserName.setText(user.getName());
-        //TODO 显示当前用户手机号
+        //显示当前用户手机号
         mTvPhone.setText(user.getPhone());
         //处理用户头像
         doUserHeadImage(user);
@@ -143,7 +143,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             @Override
             public Bitmap transform(Bitmap source) {
                 //图片缩放
-                Bitmap zoom = BitMapUtil.zoom(source, DensityUtil.dp2px(62), DensityUtil.dp2px(62));
+                Bitmap zoom = BitMapUtil.zoom(source, UIUtils.dp2px(62), UIUtils.dp2px(62));
                 //头像圆形裁剪
                 Bitmap circleBitMap = BitMapUtil.circleBitMap(zoom);
                 //1:transform当中处理完图片之后，需要调用recylce方法回收
@@ -225,7 +225,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             String pathResult = getPath(selectedImage);
             if (!TextUtils.isEmpty(path)) {
                 Bitmap decodeFile = BitmapFactory.decodeFile(pathResult);
-                Bitmap zoomBitmap = BitMapUtil.zoom(decodeFile, DensityUtil.dp2px(62), DensityUtil.dp2px(62));
+                Bitmap zoomBitmap = BitMapUtil.zoom(decodeFile, UIUtils.dp2px(62), UIUtils.dp2px(62));
                 //bitmap圆形裁剪
                 Bitmap circleImage = BitMapUtil.circleBitMap(zoomBitmap);
                 try {

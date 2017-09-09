@@ -26,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.fmrt.p2p.util.AppConstants.PTP_LOAN_BASE_URL;
+import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
 
 
 /**
@@ -122,17 +122,17 @@ public class IndexFragment extends BaseFragment
             @Override
             public void onError(@NonNull Throwable e)
             {
-                Log.e("UserCenterFragment", "onError:" + e.getMessage());
+                Log.e("IndexFragment", "onError:" + e.getMessage());
             }
 
             @Override
             public void onComplete()
             {
-                Log.e("UserCenterFragment", "onComplete");
+                Log.e("IndexFragment", "onComplete");
             }
         };
 
-        //调用“通过uuid查询投资详情”接口：getCusContractDetailByUuid()
+        //调用“获得首页图片列表”接口：getIndexImgList()
         service.getIndexImgList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

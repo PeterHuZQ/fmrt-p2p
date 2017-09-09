@@ -23,7 +23,7 @@ import com.fmrt.p2p.service.ServerManager;
 import com.fmrt.p2p.usercenter.bean.ResultBeanData;
 import com.fmrt.p2p.usercenter.bean.TokenBeanData;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
-import com.fmrt.p2p.util.AppConstants;
+import com.fmrt.p2p.common.AppNetConfig;
 import com.fmrt.p2p.util.MyTextWatcher;
 import com.fmrt.p2p.util.RandomUtil;
 import com.fmrt.p2p.util.ToastUtil;
@@ -46,7 +46,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import static com.fmrt.p2p.util.AppConstants.FMRT_SSO_BASE_URL;
+import static com.fmrt.p2p.common.AppNetConfig.FMRT_SSO_BASE_URL;
 
 /**
  * 登录Activity
@@ -242,8 +242,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                         //Log.i(TAG, "3: " + Thread.currentThread().getName());
                         if (tokenBeanData.getStatus().equals("200"))
                         {
-                            //TODO 保存用户账号信息到SharePreference
                             UserBeanData.DataBean user = tokenBeanData.getData();
+                            //保存用户账号信息到SharePreference
                             saveUserInfo(user);
                             ToastUtil.getInstance().showToast("通过token查询用户信息成功", Toast.LENGTH_SHORT);
                             //跳转到主页面
@@ -283,7 +283,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception
             {
-                String url = AppConstants.LOGINACTIVITY_LOGIN_URL;
+                String url = AppNetConfig.LOGINACTIVITY_LOGIN_URL;
                 String ret = ServerManager.getInstance().login(url, name, password, validateCode);
                 e.onNext(ret);
 
@@ -309,7 +309,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                             {
                                 //LoginBeanData.UserBean user=loginBeanData.getData();
                                 Log.e("p2p", "解析成功==");
-                                //TODO 保存用户账号信息到SharePreference
+                                //保存用户账号信息到SharePreference
                                 //saveUserInfo(user);
                                 ToastUtil.getInstance().showToast("登录成功", Toast.LENGTH_SHORT);
                                 //跳转到主页面
@@ -348,7 +348,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
 //                            {
 //                                //LoginBeanData.UserBean user=loginBeanData.getData();
 //                                Log.e("p2p", "解析成功==");
-//                                //TODO 保存用户账号信息到SharePreference
+//                                //保存用户账号信息到SharePreference
 //                                //saveUserInfo(user);
 //                                ToastUtil.getInstance().showToast("登录成功", Toast.LENGTH_SHORT);
 //                                //跳转到主页面
@@ -395,7 +395,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         @Override
         protected String doInBackground(String... strings)
         {
-            String url = AppConstants.LOGINACTIVITY_LOGIN_URL;
+            String url = AppNetConfig.LOGINACTIVITY_LOGIN_URL;
             String ret = ServerManager.getInstance().login(url, name, password, validateCode);
             return ret;
         }
@@ -415,7 +415,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                 {
                     //LoginBeanData.UserBean user=loginBeanData.getData();
                     Log.e("p2p", "解析成功==");
-                    //TODO 保存用户账号信息到SharePreference
+                    //保存用户账号信息到SharePreference
                     //saveUserInfo(user);
                     ToastUtil.getInstance().showToast("登录成功", Toast.LENGTH_SHORT);
                     //跳转到主页面

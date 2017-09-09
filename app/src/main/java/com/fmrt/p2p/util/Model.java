@@ -40,8 +40,4 @@ public class Model
         return executors;
     }
 
-    //用户登录成功后的处理方法
-    public void loginSuccess() {
-
-    }
 }

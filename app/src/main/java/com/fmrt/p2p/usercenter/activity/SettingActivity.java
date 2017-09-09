@@ -10,7 +10,7 @@ import com.fmrt.p2p.R;
 import com.fmrt.p2p.app.MainActivity;
 import com.fmrt.p2p.base.BaseActivity;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
-import com.fmrt.p2p.util.AppManager;
+import com.fmrt.p2p.common.AppManager;
 
 /**
  * 设置Activity
@@ -43,7 +43,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         UserBeanData.DataBean user=getUserInfo();
         //TODO 显示当前用户名
         tvUserName.setText(user.getName());
-        //TODO 显示当前用户手机号
+        //显示当前用户手机号
         tvPhone.setText(user.getPhone());
     }
 

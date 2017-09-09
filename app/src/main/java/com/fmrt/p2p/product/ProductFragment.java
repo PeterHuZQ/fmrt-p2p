@@ -12,6 +12,8 @@ import com.fmrt.p2p.product.adapter.MyFragmentPagerAdapter;
 import com.fmrt.p2p.product.childfragment.InvestListFragment;
 import com.fmrt.p2p.product.childfragment.RecommendListFragment;
 import com.fmrt.p2p.product.childfragment.TransferListFragment;
+import com.fmrt.p2p.util.UIUtils;
+
 import android.support.design.widget.TabLayout;
 
 import java.util.ArrayList;
@@ -38,7 +40,6 @@ public class ProductFragment extends BaseFragment
     public View initView()
     {
         View view =View.inflate(mContext, R.layout.fragment_invest,null);
-
         initTitle(view);
 
         tab_invest_title=  (TabLayout)view.findViewById(R.id.tab_invest_title);
@@ -68,11 +69,14 @@ public class ProductFragment extends BaseFragment
         fragment_list.add(new TransferListFragment());
 
 
-        //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
+        //TODO 将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
+        //UIUtils.getStringArr(@string/licai_tab);
         title_list = new ArrayList<>();
         title_list.add("推荐");
         title_list.add("投资");
         title_list.add("转让");
+
+
 
 
         //设置TabLayout的模式（MODE_FIXED 和 MODE_SCROLLABLE）

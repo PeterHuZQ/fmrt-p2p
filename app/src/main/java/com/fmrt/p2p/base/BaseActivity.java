@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
-import com.fmrt.p2p.util.AppManager;
+import com.fmrt.p2p.common.AppManager;
 import com.fmrt.p2p.util.PrefUtils;
 
 import butterknife.ButterKnife;

@@ -1,14 +1,11 @@
 package com.fmrt.p2p.service;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.fmrt.p2p.util.AppConstants;
+import com.fmrt.p2p.common.AppNetConfig;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -48,22 +45,11 @@ public class ServerManager
         return sServerManager;
     }
 
-    //获取首页页面数据
-    public String getIndexData() throws IOException
-    {
-        String url = AppConstants.INDEX_URL;
-        Response response = OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute();
-        return response.body().string();
-    }
 
     //获取投资列表数据
     public String getInvestData() throws IOException
     {
-        String url = AppConstants.INVEST_URL;
+        String url = AppNetConfig.INVEST_URL;
         Response response = OkHttpUtils
                 .get()
                 .url(url)
