@@ -1,7 +1,5 @@
 package com.fmrt.p2p.loan;
 
-
-import android.view.View;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
 
@@ -12,12 +10,14 @@ import com.fmrt.p2p.base.BaseFragment;
 public class LoanFragment extends BaseFragment
 {
     @Override
-    public View initView()
+    protected int getLayoutId()
     {
-
-        View view =View.inflate(mContext, R.layout.fragment_loan,null);
-
-        return view;
+        return R.layout.fragment_loan;
     }
 
+    @Override
+    protected void initView()
+    {
+
+    }
 }

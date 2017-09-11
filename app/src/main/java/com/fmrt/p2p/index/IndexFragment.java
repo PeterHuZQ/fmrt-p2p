@@ -1,21 +1,30 @@
 package com.fmrt.p2p.index;
 
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.index.adapter.BannerAdapter;
 import com.fmrt.p2p.index.bean.ImgListBeanData;
 import com.fmrt.p2p.service.RetrofitService;
 import com.fmrt.p2p.util.ToastUtil;
+import com.fmrt.p2p.widget.MyScrollView;
 import com.fmrt.p2p.widget.RippleProgress;
 import com.viewpagerindicator.CirclePageIndicator;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import butterknife.Bind;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -26,6 +35,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.fmrt.p2p.app.P2PApplication.mContext;
 import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
 
 
@@ -36,57 +46,67 @@ import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
 public class IndexFragment extends BaseFragment
 {
     //公共头布局
-    private ImageView iv_left;
-    private TextView tv_title;
-    private ImageView iv_right;
-
+    @Bind(R.id.iv_left)
+    ImageView iv_left;
+    @Bind(R.id.tv_title)
+    TextView tv_title;
+    @Bind(R.id.iv_right)
+    ImageView iv_right;
     //横幅广播Banner
-    private ViewPager vpBarner;
-    private CirclePageIndicator circleBarner;
+    @Bind(R.id.vp_barner)
+    ViewPager vpBarner;
+    @Bind(R.id.circle_barner)
+    CirclePageIndicator circleBarner;
+    @Bind(R.id.textView1)
+    TextView mTextView1;
+    //水波纹进度球
+    @Bind(R.id.ripple_progress)
+    RippleProgress mRippleProgress;
+    @Bind(R.id.p_yearlv)
+    TextView mPYearlv;
+    @Bind(R.id.button1)
+    Button mButton1;
+    @Bind(R.id.myscrollview)
+    MyScrollView mMyscrollview;
+
 
     private BannerAdapter adapter;
-
-    // 水波纹进度球
-    private RippleProgress mRippleProgress;
 
     //返回的数据
     private List<ImgListBeanData.BannerInfo> bannerInfo_list;
 
     @Override
-    public View initView()
+    protected int getLayoutId()
     {
-
-        View view = View.inflate(mContext, R.layout.fragment_index, null);
-
-        initTitle(view);
-
-        vpBarner=(ViewPager)view.findViewById(R.id.vp_barner);
-        circleBarner=(CirclePageIndicator)view.findViewById(R.id.circle_barner);
-
-        mRippleProgress = (RippleProgress) view.findViewById(R.id.ripple_progress);
-        //开始波纹
-        mRippleProgress.startWave();
-        return view;
+        return R.layout.fragment_index;
     }
 
-    private void initTitle(View view)
+    @Override
+    protected void initView()
     {
-        iv_left= (ImageView) view.findViewById(R.id.iv_left);
-        iv_right= (ImageView) view.findViewById(R.id.iv_right);
+        //初始化头布局
+        initTitle();
+
+        //开始波纹
+        mRippleProgress.startWave();
+    }
+
+    private void initTitle()
+    {
         iv_left.setVisibility(View.INVISIBLE);
         iv_right.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void initData(){
-        super.initData();
-        Log.e("p2p", "首页IndexFragment的数据被初始化了。。。" );
+    public void initData()
+    {
+        Log.e("p2p", "首页IndexFragment的数据被初始化了。。。");
         //联网请求首页的数据
         getDataByRetrofitAndRxJava();
     }
 
     /**
-     *用RxJava和Retrofit获取首页图片列表
+     * 用RxJava和Retrofit获取首页图片列表
      */
     private void getDataByRetrofitAndRxJava()
     {
@@ -139,21 +159,26 @@ public class IndexFragment extends BaseFragment
                 .subscribe(observer);
     }
 
-    private void processData(ImgListBeanData imgListBeanData){
-        if (imgListBeanData.getStatus().equals("200")){
-            bannerInfo_list=imgListBeanData.getRows();
+    private void processData(ImgListBeanData imgListBeanData)
+    {
+        if (imgListBeanData.getStatus().equals("200"))
+        {
+            bannerInfo_list = imgListBeanData.getRows();
             if (bannerInfo_list != null)
             {   //有数据
                 //创建横幅广播Banner的适配器
-                adapter = new BannerAdapter(mContext,bannerInfo_list);
+                adapter = new BannerAdapter(mContext, bannerInfo_list);
                 //为图片轮播ViewPager适配数据
                 vpBarner.setAdapter(adapter);
                 //把ViewPager交给圆形指示器
                 circleBarner.setViewPager(vpBarner);
-            }else{
+            } else
+            {
                 //没有数据
-                ToastUtil.getInstance().showToast( "没有数据",Toast.LENGTH_SHORT);
+                ToastUtil.getInstance().showToast("没有数据", Toast.LENGTH_SHORT);
             }
         }
     }
+
+
 }
