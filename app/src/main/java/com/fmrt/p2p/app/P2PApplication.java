@@ -45,7 +45,7 @@ public class P2PApplication extends Application
         ToastUtil.getInstance().init(this);
 
         //初始化默认异常处理器：CrashHandler
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
 
         //初始化数据模型层全局类
         Model.getInstance().init(this);

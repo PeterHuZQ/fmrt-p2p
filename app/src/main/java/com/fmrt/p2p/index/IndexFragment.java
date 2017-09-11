@@ -1,11 +1,8 @@
 package com.fmrt.p2p.index;
 
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,10 +10,12 @@ import android.widget.Toast;
 
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
+import com.fmrt.p2p.common.AppConstant;
 import com.fmrt.p2p.index.adapter.BannerAdapter;
 import com.fmrt.p2p.index.bean.ImgListBeanData;
 import com.fmrt.p2p.service.RetrofitService;
 import com.fmrt.p2p.util.ToastUtil;
+import com.fmrt.p2p.widget.LoadingPage;
 import com.fmrt.p2p.widget.MyScrollView;
 import com.fmrt.p2p.widget.RippleProgress;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -29,6 +28,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -68,6 +68,8 @@ public class IndexFragment extends BaseFragment
     Button mButton1;
     @Bind(R.id.myscrollview)
     MyScrollView mMyscrollview;
+    @Bind(R.id.loadingPage)
+    LoadingPage mLoadingPage;
 
 
     private BannerAdapter adapter;
@@ -129,31 +131,40 @@ public class IndexFragment extends BaseFragment
             @Override
             public void onSubscribe(@NonNull Disposable d)
             {
-
             }
 
             @Override
             public void onNext(@NonNull ImgListBeanData result)
             {
-                ////解析数据
+                //解析数据
                 processData(result);
             }
 
             @Override
             public void onError(@NonNull Throwable e)
             {
-                Log.e("IndexFragment", "onError:" + e.getMessage());
+                mLoadingPage.showPage(AppConstant.PAGE_ERROR_STATE);
             }
 
             @Override
             public void onComplete()
             {
-                Log.e("IndexFragment", "onComplete");
+                mLoadingPage.setVisibility(View.GONE);
             }
         };
 
         //调用“获得首页图片列表”接口：getIndexImgList()
         service.getIndexImgList()
+                .doOnSubscribe(new Consumer<Disposable>()
+                {
+                    //doOnSubscribe用于在call之前执行一些初始化操作
+                    @Override
+                    public void accept(Disposable disposable) throws Exception
+                    {
+                        //展示“//正在加载”
+                        mLoadingPage.showPage(AppConstant.PAGE_LOADING_STATE);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
@@ -179,6 +190,4 @@ public class IndexFragment extends BaseFragment
             }
         }
     }
-
-
 }

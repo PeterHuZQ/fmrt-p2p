@@ -2,8 +2,6 @@ package com.fmrt.p2p.product.childfragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +11,25 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.fmrt.p2p.R;
+import com.fmrt.p2p.base.BaseFragment;
+import com.fmrt.p2p.common.AppConstant;
 import com.fmrt.p2p.product.activity.InvestDetailActivity;
 import com.fmrt.p2p.product.adapter.RecommendListAdapter;
 import com.fmrt.p2p.product.bean.CusContract;
 import com.fmrt.p2p.product.bean.RecommendListBeanData;
 import com.fmrt.p2p.service.RetrofitService;
+import com.fmrt.p2p.widget.LoadingPage;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -39,41 +43,34 @@ import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
  * 推荐列表
  */
 
-public class RecommendListFragment extends Fragment
+public class RecommendListFragment extends BaseFragment
 {
-    private ListView lv_recommend;
-    private LinearLayout ll_hint;
+    @Bind(R.id.lv_recommend)
+    ListView lv_recommend;
+    @Bind(R.id.llHint)
+    LinearLayout ll_hint;
+    @Bind(R.id.loadingPage)
+    LoadingPage mLoadingPage;
+
     //返回的数据
     private List<CusContract> recommend_list;
 
     private static final String CUSCOBTRACT_UUID = "cusContractUuid";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    protected int getLayoutId()
     {
-        View view = View.inflate(getActivity(), R.layout.fragment_recommend_list, null);
-        //1、初始化控件
-        initView(view);
-        return view;
+        return R.layout.fragment_recommend_list;
     }
 
-    /**
-     * 业务逻辑
-     */
-    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    @Override
+    protected void initView()
     {
-        super.onActivityCreated(savedInstanceState);
-        //2、初始化数据
-        initData();
+
     }
 
-    private void initView(View view)
-    {
-        lv_recommend = (ListView) view.findViewById(R.id.lv_recommend);
-        ll_hint = (LinearLayout) view.findViewById(R.id.llHint);
-    }
-
-    private void initData()
+    @Override
+    public void initData()
     {
         //联网请求数据
         getDataByRetrofitAndRxJava();
@@ -116,24 +113,26 @@ public class RecommendListFragment extends Fragment
             @Override
             public void onError(@NonNull Throwable e)
             {
-                Log.e("RecommendListFragment", "onError:" + e.getMessage());
+                mLoadingPage.showPage(AppConstant.PAGE_ERROR_STATE);
             }
 
             @Override
             public void onComplete()
             {
-                Log.e("LoginActivity", "onComplete");
+                mLoadingPage.setVisibility(View.GONE);
             }
         };
 
         //调用queryContractList()获取推荐频道列表数据
         service.queryContractList()
-                .map(new Function<RecommendListBeanData, RecommendListBeanData>()
+                .doOnSubscribe(new Consumer<Disposable>()
                 {
+                    //doOnSubscribe用于在call之前执行一些初始化操作
                     @Override
-                    public RecommendListBeanData apply(@NonNull RecommendListBeanData responseBody) throws Exception
+                    public void accept(Disposable disposable) throws Exception
                     {
-                        return responseBody;
+                        //展示“//正在加载”
+                        mLoadingPage.showPage(AppConstant.PAGE_LOADING_STATE);
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -204,5 +203,19 @@ public class RecommendListFragment extends Fragment
         getActivity().startActivity(intent);
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }

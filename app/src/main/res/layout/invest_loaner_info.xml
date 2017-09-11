@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="借款人信息"
+        android:textColor="@color/text_color_b"
+        android:textSize="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_size"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/line_color_b" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dp"
+            android:text="姓名"
+            android:textColor="@color/text_color_d"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv01"
+            android:text="未知"
+            android:textColor="@color/text_color_b"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv01"
+            android:layout_marginTop="12dp"
+            android:minWidth="100dp"
+            android:text="身份证"
+            android:textColor="@color/text_color_d"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvIdCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv01"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/tv02"
+            android:text="未知"
+            android:textColor="@color/text_color_b"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv02"
+            android:layout_marginTop="12dp"
+            android:minWidth="100dp"
+            android:text="借款金额"
+            android:textColor="@color/text_color_d"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvLoanMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv02"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/tv03"
+            android:text=""
+            android:textColor="@color/text_color_b"
+            android:textSize="14sp" />
+
+
+
+        <TextView
+            android:id="@+id/tv04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv03"
+            android:layout_marginTop="12dp"
+            android:minWidth="100dp"
+            android:text="手机号码"
+            android:textColor="@color/text_color_d"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv03"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/tv04"
+            android:text="未知"
+            android:textColor="@color/text_color_b"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv04"
+            android:layout_marginTop="12dp"
+            android:minWidth="100dp"
+            android:text="居住状况"
+            android:textColor="@color/text_color_d"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvLiveState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv04"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/tv05"
+            android:text="未知"
+            android:textColor="@color/text_color_b"
+            android:textSize="14sp" />
+
+
+
+
+        <TextView
+            android:id="@+id/tv06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv05"
+            android:layout_marginTop="12dp"
+            android:minWidth="100dp"
+            android:text="婚姻状况"
+            android:textColor="@color/text_color_d"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvMarray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv05"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/tv06"
+            android:text="未知"
+            android:textColor="@color/text_color_b"
+            android:textSize="14sp" />
+
+
+
+        <TextView
+            android:id="@+id/tv07"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv06"
+            android:layout_marginTop="12dp"
+            android:minWidth="100dp"
+            android:text="借款用途"
+            android:textColor="@color/text_color_d"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvPurpose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv06"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/tv07"
+            android:text=""
+            android:textColor="@color/text_color_b"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>

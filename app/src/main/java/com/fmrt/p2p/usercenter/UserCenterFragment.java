@@ -1,26 +1,24 @@
 package com.fmrt.p2p.usercenter;
 
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseActivity;
+import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.service.RetrofitService;
 import com.fmrt.p2p.usercenter.activity.LoginActivity;
 import com.fmrt.p2p.usercenter.activity.SettingActivity;
@@ -34,6 +32,7 @@ import com.fmrt.p2p.widget.MyGridView;
 
 import java.util.concurrent.TimeUnit;
 
+import butterknife.Bind;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -50,35 +49,72 @@ import static com.fmrt.p2p.common.AppNetConfig.PTP_USERMANAGE_BASE_URL;
  * 个人中心Fragment
  */
 
-public class UserCenterFragment extends Fragment implements View.OnClickListener
+public class UserCenterFragment extends BaseFragment implements View.OnClickListener
 {
     // 用户头像
-    private ImageView imgHead;
+    @Bind(R.id.imgHead)
+    ImageView imgHead;
+    @Bind(R.id.tvMessages)
+    TextView mTvMessages;
     //“设置”按钮
-    private TextView mTvSetting;
-    // “提现”按钮
-    private LinearLayout mLLGetMoney;
-
+    @Bind(R.id.tvSetting)
+    TextView mTvSetting;
+    @Bind(R.id.imgDisplay)
+    ImageView mImgDisplay;
+    @Bind(R.id.llToAccountRemain)
+    LinearLayout mLlToAccountRemain;
     //前台用户账号金额信息
-    private TextView mTvAcctRemain;    //账户余额
-    private TextView mTvInvestRemain;  //投资余额
-    private TextView mTvTotalMoney;    //总资产
+    @Bind(R.id.tvAcctRemain)
+    TextView mTvAcctRemain;    //账户余额
+    @Bind(R.id.tvInvestRemain)
+    TextView mTvInvestRemain;  //投资余额
+    @Bind(R.id.tvTotalMoney)
+    TextView mTvTotalMoney;    //总资产
+    @Bind(R.id.textView)
+    TextView mTextView;
+    @Bind(R.id.llToMyInvest)
+    LinearLayout mLlToMyInvest;
+    //“提现”按钮
+    @Bind(R.id.llGetMoney)
+    LinearLayout mLLGetMoney;
+    @Bind(R.id.llPutMoney)
+    LinearLayout mLlPutMoney;
+    @Bind(R.id.rlMyInvest)
+    RelativeLayout mRlMyInvest;
+    @Bind(R.id.tvHolding)
+    TextView mTvHolding;
+    @Bind(R.id.tvCollection)
+    TextView mTvCollection;
+    @Bind(R.id.tvTranslate)
+    TextView mTvTranslate;
+    @Bind(R.id.tvEnd)
+    TextView mTvEnd;
+    @Bind(R.id.gv_user)
+    MyGridView gv_user;
+    @Bind(R.id.llMain)
+    LinearLayout mLlMain;
+    @Bind(R.id.scrollView)
+    ScrollView mScrollView;
 
-    private MyGridView gv_user;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = View.inflate(getActivity(), R.layout.fragment_usercenter, null);
-        //1、初始化控件
-        initView(view);
-        return view;
+    protected int getLayoutId()
+    {
+        return R.layout.fragment_usercenter;
+    }
+
+    @Override
+    protected void initView()
+    {
+
     }
 
     /**
      * 业务逻辑
      */
-    public void onActivityCreated(@Nullable Bundle savedInstanceState){
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         //2、初始化数据
         initData();
@@ -86,29 +122,9 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         initListener();
     }
 
-    //初始化控件
-    private void initView(View view) {
-        //用户头像
-        imgHead = (ImageView) view.findViewById(R.id.imgHead);
-        //设置按钮
-        mTvSetting = (TextView) view.findViewById(R.id.tvSetting);
-        //提现按钮
-        mLLGetMoney =(LinearLayout) view.findViewById(R.id.llGetMoney);
-
-        //前台用户账号金额信息
-        mTvAcctRemain= (TextView) view.findViewById(R.id.tvAcctRemain);
-        mTvInvestRemain = (TextView) view.findViewById(R.id.tvInvestRemain);
-        mTvTotalMoney = (TextView) view.findViewById(R.id.tvTotalMoney);
-
-        /*mTvAcctRemain.setFormat("#,###.00");
-        mTvInvestRemain.setFormat("#,###.00");
-        mTvTotalMoney.setFormat("#,###.00");*/
-    }
-
     //初始化数据
-    private void initData(){
-        //创建GridView
-        gv_user = (MyGridView) getActivity().findViewById(R.id.gv_user);
+    public void initData()
+    {
         //给GridView设置adapter
         gv_user.setAdapter(new UserCenterFragmentAdapter(getActivity()));
 
@@ -121,7 +137,7 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     *用RxJava和Retrofit获取前台用户账号金额信息
+     * 用RxJava和Retrofit获取前台用户账号金额信息
      */
     private void getDataByRetrofitAndRxJava(String userid)
     {
@@ -176,16 +192,18 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
 
     /**
      * 设置“前台用户账号金额信息”
+     *
      * @param userAcctMoyBeanData
      */
     private void setUserAcctMoy(UserAcctMoyBeanData userAcctMoyBeanData)
     {
-        if(userAcctMoyBeanData.getStatus().equals("200")){
+        if (userAcctMoyBeanData.getStatus().equals("200"))
+        {
             UserAcctMoyBeanData.UserAcctMoy userAcctMoy = userAcctMoyBeanData.getData();
-            mTvAcctRemain.setText(userAcctMoy.getAcctbal()+"");
-            mTvInvestRemain.setText(userAcctMoy.getInvebal()+"");
-            mTvTotalMoney.setText(userAcctMoy.getTotal()+"");
-        }else
+            mTvAcctRemain.setText(userAcctMoy.getAcctbal() + "");
+            mTvInvestRemain.setText(userAcctMoy.getInvebal() + "");
+            mTvTotalMoney.setText(userAcctMoy.getTotal() + "");
+        } else
         {
             ToastUtil.getInstance().showToast("系统繁忙", Toast.LENGTH_SHORT);
         }
@@ -200,36 +218,39 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         mLLGetMoney.setOnClickListener(this);
 
         //个人中心九宫格
-        gv_user.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gv_user.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                switch (position)
+                {
                     case 0:
-                        ToastUtil.getInstance().showToast( "position" + position,Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 1:
-                        ToastUtil.getInstance().showToast( "position" + position,Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 2:
-                        ToastUtil.getInstance().showToast( "position" + position, Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 3:
-                        ToastUtil.getInstance().showToast( "position" + position,Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 4:// 点击我的银行卡
-                        ToastUtil.getInstance().showToast( "position" + position,Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 5:
-                        ToastUtil.getInstance().showToast( "position" + position,Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 6:
-                        ToastUtil.getInstance().showToast( "position" + position,Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 7:
-                        ToastUtil.getInstance().showToast( "position" + position,Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 8:
-                        ToastUtil.getInstance().showToast( "position" + position,Toast.LENGTH_SHORT);
+                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
 
                 }
@@ -241,7 +262,8 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        switch (v.getId()) {
+        switch (v.getId())
+        {
             case R.id.imgHead:
                 //ToastUtil.getInstance().showToast( "跳转到个人资料页面",Toast.LENGTH_SHORT);
                 ((BaseActivity) getActivity()).gotoActivity(UserInfoActivity.class, null);
@@ -261,10 +283,12 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     private void isLogin()
     {
         UserBeanData.DataBean user = ((BaseActivity) getActivity()).getUserInfo();
-        if(TextUtils.isEmpty(user.getUuid())){
+        if (TextUtils.isEmpty(user.getUuid()))
+        {
             //未登录
             showLoginDialog();
-        }else{
+        } else
+        {
             //已登录--处理登录信息
             doUserInfo(user);
         }
@@ -275,9 +299,11 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("登录");
         builder.setMessage("必须先登录...go...");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener()
+        {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 //ToastUtil.getInstance().showToast( "跳转到登录页面",Toast.LENGTH_SHORT);
                 ((BaseActivity) getActivity()).gotoActivity(LoginActivity.class, null);
             }
@@ -290,7 +316,7 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
     private void doUserInfo(UserBeanData.DataBean user)
     {
         //设置用户头像
-        Log.e("p2p","用户的UUID"+user.getUuid());
+        Log.e("p2p", "用户的UUID" + user.getUuid());
         //transform对图像进行自定义处理
         /*Picasso.with(getActivity()).load(user.getUF_AVATAR_URL()).transform(new Transformation() {
             @Override
@@ -312,4 +338,6 @@ public class UserCenterFragment extends Fragment implements View.OnClickListener
         }).into(imgHead);*/
 
     }
+
+
 }
