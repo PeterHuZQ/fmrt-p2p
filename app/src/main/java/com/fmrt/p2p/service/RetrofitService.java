@@ -44,7 +44,7 @@ public interface RetrofitService
 
     //获取推荐频道列表数据
     @GET("contract/list")
-    Observable<RecommendListBeanData> queryContractList();
+    Observable<RecommendListBeanData> queryContractList(@Query("rows") String rows);
 
     //通过uuid查询投资详情
     @GET("contract/detail/{uuid}")

@@ -3,6 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <!--加载页面-->
     <com.fmrt.p2p.widget.LoadingPage
         android:id="@+id/loadingPage"
         android:layout_width="match_parent"
@@ -11,16 +12,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
+
+        <!--LoadListView-->
+        <com.fmrt.p2p.widget.LoadListView
             android:id="@+id/lv_recommend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:divider="@null"
-            android:dividerHeight="10dp">
-        </ListView>
-
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:divider="@color/background_color"
+            android:cacheColorHint="#00000000"
+            android:dividerHeight="0.5dp" />
+        <!--没有可买的资产的时候显示-->
         <LinearLayout
             android:id="@+id/llHint"
             android:layout_width="wrap_content"
@@ -47,4 +49,5 @@
                 android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>
+
 </LinearLayout>

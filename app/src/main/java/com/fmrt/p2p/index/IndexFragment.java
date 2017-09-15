@@ -143,6 +143,7 @@ public class IndexFragment extends BaseFragment
             @Override
             public void onError(@NonNull Throwable e)
             {
+                //网络不通，不能与服务器正在通讯，无法加载数据
                 mLoadingPage.showPage(AppConstant.PAGE_ERROR_STATE);
             }
 

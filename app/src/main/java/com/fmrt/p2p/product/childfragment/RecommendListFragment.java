@@ -1,15 +1,10 @@
 package com.fmrt.p2p.product.childfragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.common.AppConstant;
@@ -18,19 +13,18 @@ import com.fmrt.p2p.product.adapter.RecommendListAdapter;
 import com.fmrt.p2p.product.bean.CusContract;
 import com.fmrt.p2p.product.bean.RecommendListBeanData;
 import com.fmrt.p2p.service.RetrofitService;
+import com.fmrt.p2p.widget.LoadListView;
 import com.fmrt.p2p.widget.LoadingPage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -43,19 +37,27 @@ import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
  * 推荐列表
  */
 
-public class RecommendListFragment extends BaseFragment
+public class RecommendListFragment extends BaseFragment implements LoadListView.ILoadListener
 {
+    //ListView绑定适配器，适配器绑定数据源
     @Bind(R.id.lv_recommend)
-    ListView lv_recommend;
+    LoadListView lv_recommend;
     @Bind(R.id.llHint)
     LinearLayout ll_hint;
     @Bind(R.id.loadingPage)
     LoadingPage mLoadingPage;
 
+    //数据源
+    List<CusContract> recommend_list= new ArrayList<>();
+
     //返回的数据
-    private List<CusContract> recommend_list;
+    private List<CusContract> resultBean;
 
     private static final String CUSCOBTRACT_UUID = "cusContractUuid";
+
+    String num="5";
+
+    RecommendListAdapter adapter;
 
     @Override
     protected int getLayoutId()
@@ -73,13 +75,18 @@ public class RecommendListFragment extends BaseFragment
     public void initData()
     {
         //联网请求数据
-        getDataByRetrofitAndRxJava();
+        getDataByRetrofitAndRxJava("5");
+        //给ListView设置ILoadListener
+        lv_recommend.setInterface(this);
+        //给ListView设置适配器adapter
+        adapter = new RecommendListAdapter(getActivity(),recommend_list);
+        lv_recommend.setAdapter(adapter);
     }
 
     /**
      * 用RxJava和Retrofit获取数据推荐频道列表数据
      */
-    private void getDataByRetrofitAndRxJava()
+    private void getDataByRetrofitAndRxJava(String num)
     {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.connectTimeout(5, TimeUnit.SECONDS);
@@ -113,6 +120,7 @@ public class RecommendListFragment extends BaseFragment
             @Override
             public void onError(@NonNull Throwable e)
             {
+                //网络不通，不能与服务器正在通讯，无法加载数据
                 mLoadingPage.showPage(AppConstant.PAGE_ERROR_STATE);
             }
 
@@ -124,14 +132,14 @@ public class RecommendListFragment extends BaseFragment
         };
 
         //调用queryContractList()获取推荐频道列表数据
-        service.queryContractList()
+        service.queryContractList(num)
                 .doOnSubscribe(new Consumer<Disposable>()
                 {
                     //doOnSubscribe用于在call之前执行一些初始化操作
                     @Override
                     public void accept(Disposable disposable) throws Exception
                     {
-                        //展示“//正在加载”
+                        //展示“正在加载”
                         mLoadingPage.showPage(AppConstant.PAGE_LOADING_STATE);
                     }
                 })
@@ -149,13 +157,21 @@ public class RecommendListFragment extends BaseFragment
     {
         if (recommendListBeanData.getStatus().equals("200"))
         {
-            recommend_list = recommendListBeanData.getRows();
-            if (recommend_list != null)
-            { //有数据
-                //  Log.e("p2p", "解析成功=="+recommend_list.get(0).getUuid() );
-                lv_recommend.setVisibility(View.VISIBLE);
-                ll_hint.setVisibility(View.GONE);
-                lv_recommend.setAdapter(new RecommendListAdapter(getActivity(), recommend_list));
+            resultBean = recommendListBeanData.getRows();
+            if (resultBean != null)
+            {   //有数据
+                for (int i = recommend_list.size(); i < resultBean.size(); i++) {
+                    CusContract entity = new CusContract();
+                    entity.setUuid(resultBean.get(i).getUuid());
+                    entity.setDisplayid(resultBean.get(i).getDisplayid());
+                    entity.setInvestorrate(resultBean.get(i).getInvestorrate());
+                    entity.setContrenddt(resultBean.get(i).getContrenddt());
+                    entity.setResidualamt(resultBean.get(i).getResidualamt());
+                    entity.setBorramt(resultBean.get(i).getBorramt());
+                    recommend_list.add(entity);
+                    //数据源发生变化，更新adapter
+                    adapter.notifyDataSetChanged();
+                }
 
             } else
             {
@@ -203,19 +219,31 @@ public class RecommendListFragment extends BaseFragment
         getActivity().startActivity(intent);
     }
 
+    /**
+     * 加载更多数据
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public void onLoad()
     {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                //获取更多数据
+                getLoadData();
+                //通知listview加载完毕
+                lv_recommend.loadComplete();
+            }
+        }, 2000);
     }
 
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
+    /**
+     * 获取更多数据
+     */
+    private void getLoadData() {
+        num= Integer.parseInt(num)+5+"";
+        getDataByRetrofitAndRxJava(num);
     }
+
 }
