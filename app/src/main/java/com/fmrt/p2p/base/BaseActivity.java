@@ -3,6 +3,9 @@ package com.fmrt.p2p.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+
+import com.fmrt.p2p.usercenter.activity.GestureLockActivity;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
 import com.fmrt.p2p.common.AppManager;
 import com.fmrt.p2p.util.PrefUtils;
@@ -15,6 +18,17 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends FragmentActivity
 {
+    private static boolean isActive = false;
+
+    public static boolean getIsActive() {
+        return isActive;
+    }
+
+    public static void setIsActive(boolean isActive) {
+        BaseActivity.isActive = isActive;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +46,27 @@ public abstract class BaseActivity extends FragmentActivity
         initListener();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isActive) {
+            // 从后台唤醒
+            isActive = true;
+            if (PrefUtils.getInstance().getString("gesturepwd"+PrefUtils.getInstance().getString("uuid", "")) != null && !PrefUtils.getInstance().getString("gesturepwd"+PrefUtils.getInstance().getString("uuid", "")).equals("")) {
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("activityNum", 0);
+                //跳转到手势密码解锁界面
+                gotoActivity(GestureLockActivity.class, bundle);
+            }
+            else{
+                Bundle bundle = new Bundle();
+                bundle.putInt("activityNum", 1);
+                //跳转到设置手势密码界面
+                gotoActivity(GestureLockActivity.class, bundle);
+            }
+        }
+    }
 
 
     protected abstract int getLayoutId();
@@ -64,13 +99,18 @@ public abstract class BaseActivity extends FragmentActivity
         startActivity(it);
     }
 
+    public Bundle getBundle()
+    {
+        return getIntent().getBundleExtra("param");
+    }
+
     /**
      * 保存用户登录信息
      */
     public void saveUserInfo(UserBeanData.DataBean user) {
-        PrefUtils.setString(this, "uuid", user.getUuid());
-        PrefUtils.setString(this, "username", user.getUsername());
-        PrefUtils.setString(this, "phone", user.getPhone());
+        PrefUtils.getInstance().setString("uuid", user.getUuid());
+        PrefUtils.getInstance().setString("username", user.getUsername());
+        PrefUtils.getInstance().setString("phone", user.getPhone());
     }
 
     /**
@@ -80,9 +120,9 @@ public abstract class BaseActivity extends FragmentActivity
      */
     public UserBeanData.DataBean getUserInfo() {
         UserBeanData.DataBean user = new UserBeanData.DataBean();
-        user.setUuid(PrefUtils.getString(this, "uuid", ""));
-        user.setUsername(PrefUtils.getString(this, "username", ""));
-        user.setPhone(PrefUtils.getString(this, "phone", ""));
+        user.setUuid(PrefUtils.getInstance().getString("uuid", ""));
+        user.setUsername(PrefUtils.getInstance().getString("username", ""));
+        user.setPhone(PrefUtils.getInstance().getString("phone", ""));
         return user;
     }
 

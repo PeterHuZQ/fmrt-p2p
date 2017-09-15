@@ -7,6 +7,7 @@ import android.os.Handler;
 import com.fmrt.p2p.common.CrashHandler;
 import com.fmrt.p2p.util.CacheProviders;
 import com.fmrt.p2p.util.Model;
+import com.fmrt.p2p.util.PrefUtils;
 import com.fmrt.p2p.util.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -46,6 +47,9 @@ public class P2PApplication extends Application
 
         //初始化默认异常处理器：CrashHandler
 //        CrashHandler.getInstance().init(this);
+
+        //初始化SharePreference工具类
+        PrefUtils.getInstance().init(this);
 
         //初始化数据模型层全局类
         Model.getInstance().init(this);

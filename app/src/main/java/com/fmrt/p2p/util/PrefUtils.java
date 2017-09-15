@@ -5,70 +5,77 @@ import android.content.SharedPreferences;
 
 /**
  * 作用：缓存工具类(SharePreference封装)
+ * 单例模式
  */
 
 public class PrefUtils
 {
-    //获取boolean值
-    public static boolean getBoolean(Context ctx, String key, boolean defValue) {
+
+    private static PrefUtils instance;
+    //定义上下文
+    private Context mContext;
+
+    private SharedPreferences sp;
+
+
+    /**
+     * 获取实例
+     *
+     * @return
+     */
+    public static PrefUtils getInstance()
+    {
+        if (instance == null) {
+            synchronized (PrefUtils.class) {
+                if (instance == null) {
+                    instance = new PrefUtils();
+                }
+            }
+        }
+        return instance;
+    }
+    // 初始化的方法
+    public void init(Context context)
+    {
+        mContext = context;
         //获得SharedPreferences对象
-        SharedPreferences sp = ctx.getSharedPreferences("config",
-                Context.MODE_PRIVATE);
+        sp = mContext.getSharedPreferences("config", Context.MODE_PRIVATE);
+    }
+
+    //获取boolean值
+    public boolean getBoolean(String key, boolean defValue) {
         return sp.getBoolean(key, defValue);
     }
 
     //设置boolean值
-    public static void setBoolean(Context ctx, String key, boolean value) {
-        SharedPreferences sp = ctx.getSharedPreferences("config",
-                Context.MODE_PRIVATE);
+    public void setBoolean(String key, boolean value) {
         sp.edit().putBoolean(key, value).commit();
     }
     /**
      * 得到保存的数据
-     * @param context
-     * @param key
-     * @return
      */
-    public static String getString(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences("config",Context.MODE_PRIVATE);
+    public String getString( String key) {
         return sp.getString(key,"");
     }
 
     /**
      * 得到保存的数据
-     * @param ctx
-     * @param key
-     * @param defValue
-     * @return
      */
-    public static String getString(Context ctx, String key, String defValue) {
-        SharedPreferences sp = ctx.getSharedPreferences("config",
-                Context.MODE_PRIVATE);
+    public String getString(String key, String defValue) {
         return sp.getString(key, defValue);
     }
     /**
      * 保存数据（设置String值）
-     * @param ctx       上下文
-     * @param key
-     * @param value
      */
-    public static void setString(Context ctx, String key, String value) {
-        SharedPreferences sp = ctx.getSharedPreferences("config",
-                Context.MODE_PRIVATE);
+    public void setString(String key, String value) {
         sp.edit().putString(key, value).commit();
     }
     //获取Int值
-    public static int getInt(Context ctx, String key, int defValue) {
-        SharedPreferences sp = ctx.getSharedPreferences("config",
-                Context.MODE_PRIVATE);
+    public  int getInt(String key, int defValue) {
         return sp.getInt(key, defValue);
     }
     //设置Int值
-    public static void setInt(Context ctx, String key, int value) {
-        SharedPreferences sp = ctx.getSharedPreferences("config",
-                Context.MODE_PRIVATE);
+    public void setInt( String key, int value) {
         sp.edit().putInt(key, value).commit();
     }
-
-
 }
