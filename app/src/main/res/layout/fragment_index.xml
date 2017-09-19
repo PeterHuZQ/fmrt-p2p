@@ -41,12 +41,41 @@
                 </com.viewpagerindicator.CirclePageIndicator>
 
             </FrameLayout>
+            <!--头条公告-->
+            <LinearLayout
+                android:translationZ="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:src="@drawable/home_i" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="@dimen/split_line_height"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/line_color_b" />
+
+                <com.fmrt.p2p.widget.VerticalTextview
+                    android:id="@+id/tvGongGao"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/textView1"
@@ -156,7 +185,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/btn_press_color"
                 android:text="立即加入"
                 android:textColor="#FFFFFF"

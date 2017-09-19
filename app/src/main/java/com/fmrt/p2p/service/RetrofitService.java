@@ -1,5 +1,6 @@
 package com.fmrt.p2p.service;
 
+import com.fmrt.p2p.index.bean.AnnouncementListBeanData;
 import com.fmrt.p2p.index.bean.ImgListBeanData;
 import com.fmrt.p2p.product.bean.CusContractBeanData;
 import com.fmrt.p2p.product.bean.CusPerInfoBeanData;
@@ -62,4 +63,7 @@ public interface RetrofitService
     @GET("index/imglist")
     Observable<ImgListBeanData> getIndexImgList();
 
+    //获得首页置顶公告列表
+    @GET("index/announcement")
+    Observable<AnnouncementListBeanData> getIndexAnnouncementList();
 }

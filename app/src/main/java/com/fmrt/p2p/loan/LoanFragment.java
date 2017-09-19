@@ -20,4 +20,9 @@ public class LoanFragment extends BaseFragment
     {
 
     }
+    @Override
+    public void initData() {
+
+    }
+
 }
