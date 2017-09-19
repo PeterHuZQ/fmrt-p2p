@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-    <TextView
-        android:text="借款"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="40sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/common_top"/>
+
+    <com.fmrt.p2p.widget.LoadListView
+        android:id="@+id/lv_loanproduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:divider="@color/background_color"
+        android:dividerHeight="15dp"
+        android:listSelector="@null"
+        android:scrollbars="none" />
+
+</LinearLayout>

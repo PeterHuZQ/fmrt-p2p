@@ -15,4 +15,6 @@ public class AppConstant
 
     public static final int PAGE_EMPTY_STATE = 3;    //加载成功，但无数据
 
+    //借款
+    public static final String FMD_TEXT = "纯信用无抵押";
 }
