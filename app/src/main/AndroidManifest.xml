@@ -48,6 +48,7 @@
         <activity android:name=".usercenter.activity.UserInfoActivity"/>
         <activity android:name=".usercenter.activity.WithdrawActivity"/>
         <activity android:name=".usercenter.activity.GestureLockActivity"/>
+        <activity android:name=".usercenter.activity.mybankcard.BankHomeActivity"/>
         <activity
             android:name=".product.activity.InvestDetailActivity"
             android:screenOrientation="portrait"

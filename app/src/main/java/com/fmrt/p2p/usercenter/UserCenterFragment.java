@@ -24,6 +24,7 @@ import com.fmrt.p2p.usercenter.activity.LoginActivity;
 import com.fmrt.p2p.usercenter.activity.SettingActivity;
 import com.fmrt.p2p.usercenter.activity.UserInfoActivity;
 import com.fmrt.p2p.usercenter.activity.WithdrawActivity;
+import com.fmrt.p2p.usercenter.activity.mybankcard.BankHomeActivity;
 import com.fmrt.p2p.usercenter.adapter.UserCenterFragmentAdapter;
 import com.fmrt.p2p.usercenter.bean.UserAcctMoyBeanData;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
@@ -238,7 +239,8 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
                         ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
                         break;
                     case 4:// 点击我的银行卡
-                        ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
+                        //ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);
+                        ((BaseActivity) getActivity()).gotoActivity(BankHomeActivity.class, null);
                         break;
                     case 5:
                         ToastUtil.getInstance().showToast("position" + position, Toast.LENGTH_SHORT);

@@ -7,6 +7,7 @@ import com.fmrt.p2p.product.bean.CusPerInfoBeanData;
 import com.fmrt.p2p.product.bean.RecommendListBeanData;
 import com.fmrt.p2p.usercenter.bean.ResultBeanData;
 import com.fmrt.p2p.usercenter.bean.TokenBeanData;
+import com.fmrt.p2p.usercenter.bean.mybankcard.UserAcctBeanData;
 import com.fmrt.p2p.usercenter.bean.UserAcctMoyBeanData;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
 
@@ -43,6 +44,18 @@ public interface RetrofitService
     @GET("user/token/{token}")
     Observable<UserBeanData> getUserInfoByToken(@Path("token") String token);
 
+
+    //_____________________________________________________________________________________________
+    //获得首页图片列表
+    @GET("index/imglist")
+    Observable<ImgListBeanData> getIndexImgList();
+
+    //获得首页置顶公告列表
+    @GET("index/announcement")
+    Observable<AnnouncementListBeanData> getIndexAnnouncementList();
+
+
+    //_____________________________________________________________________________________________
     //获取推荐频道列表数据
     @GET("contract/list")
     Observable<RecommendListBeanData> queryContractList(@Query("rows") String rows);
@@ -55,15 +68,12 @@ public interface RetrofitService
     @GET("cusperinfo/detail/{uuid}")
     Observable<CusPerInfoBeanData> getCusPerInfoByUuid(@Path("uuid") String uuid);
 
+
+    //_____________________________________________________________________________________________
     //通过userid查询前台用户账号金额信息
     @GET("rest/useracctmoy/{userid}")
     Observable<UserAcctMoyBeanData> getUserAcctMoyByUserid(@Path("userid") String userid);
-
-    //获得首页图片列表
-    @GET("index/imglist")
-    Observable<ImgListBeanData> getIndexImgList();
-
-    //获得首页置顶公告列表
-    @GET("index/announcement")
-    Observable<AnnouncementListBeanData> getIndexAnnouncementList();
+    //通过userid查询银行卡详情
+    @GET("rest/accoutsInfo/{userid}")
+    Observable<UserAcctBeanData> getCardsInfoByUserid(@Path("userid") String userid);
 }
