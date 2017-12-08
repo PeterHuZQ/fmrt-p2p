@@ -5,6 +5,7 @@ import com.fmrt.p2p.index.bean.ImgListBeanData;
 import com.fmrt.p2p.product.bean.CusContractBeanData;
 import com.fmrt.p2p.product.bean.CusPerInfoBeanData;
 import com.fmrt.p2p.product.bean.RecommendListBeanData;
+import com.fmrt.p2p.product.bean.TransferListBeanData;
 import com.fmrt.p2p.usercenter.bean.ResultBeanData;
 import com.fmrt.p2p.usercenter.bean.TokenBeanData;
 import com.fmrt.p2p.usercenter.bean.mybankcard.UserAcctBeanData;
@@ -67,6 +68,20 @@ public interface RetrofitService
     //通过uuid查询借款人详情
     @GET("cusperinfo/detail/{uuid}")
     Observable<CusPerInfoBeanData> getCusPerInfoByUuid(@Path("uuid") String uuid);
+
+
+    //_____________________________________________________________________________________________
+    //获取转让频道列表数据
+    @POST("transfer/find-transferlist")
+    Observable<TransferListBeanData> findTransferInfoByWhere(@Query("rows") String rows,
+                                                       @Query("dueDateStart") String dueDateStart,@Query("dueDateEnd") String dueDateEnd,
+                                                       @Query("capitalStart") String capitalStart,@Query("capitalEnd") String capitalEnd,
+                                                       @Query("rateStart") String rateStart,@Query("rateEnd") String rateEnd,
+                                                       @Query("dueDateOrder") String dueDateOrder,@Query("capitalOrder") String capitalOrder,@Query("rateOrder") String rateOrder);
+
+
+
+
 
 
     //_____________________________________________________________________________________________

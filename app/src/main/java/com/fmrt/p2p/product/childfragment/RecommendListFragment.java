@@ -53,7 +53,7 @@ public class RecommendListFragment extends BaseFragment implements LoadListView.
     //返回的数据
     private List<CusContract> resultBean;
 
-    private static final String CUSCOBTRACT_UUID = "cusContractUuid";
+    private static final String CUSCONTRACT_UUID = "cusContractUuid";
 
     String num="5";
 
@@ -214,7 +214,7 @@ public class RecommendListFragment extends BaseFragment implements LoadListView.
     {
         Intent intent = new Intent(getActivity(), InvestDetailActivity.class);
         //携带数据到InvestDetailActivity
-        intent.putExtra(CUSCOBTRACT_UUID, uuid);
+        intent.putExtra(CUSCONTRACT_UUID, uuid);
         //启动指定的activity
         getActivity().startActivity(intent);
     }

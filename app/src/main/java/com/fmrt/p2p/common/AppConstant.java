@@ -17,4 +17,6 @@ public class AppConstant
 
     //借款
     public static final String FMD_TEXT = "纯信用无抵押";
+
+    public static final int LENGTH_BANKCARD = 15; //银行卡长度最小限制
 }
