@@ -116,6 +116,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     {
         iv_left.setOnClickListener(this);
         imgHead.setOnClickListener(this);
+        mRlTab2.setOnClickListener(this);
     }
 
     @Override
@@ -130,6 +131,10 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.imgHead:
                 //更换头像
                 changeHeadImage();
+                break;
+            case R.id.rlTab2:
+                //点击“我的二维码”
+                gotoActivity(QRCodeActivity.class, null);
                 break;
         }
     }

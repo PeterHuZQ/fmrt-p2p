@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.product.adapter.MyFragmentPagerAdapter;
-import com.fmrt.p2p.product.childfragment.InvestListFragment;
+import com.fmrt.p2p.product.childfragment.ActivityListFragment;
 import com.fmrt.p2p.product.childfragment.RecommendListFragment;
 import com.fmrt.p2p.product.childfragment.TransferListFragment;
 import java.util.ArrayList;
@@ -67,16 +67,18 @@ public class ProductFragment extends BaseFragment
         //创建3个子fragment对象, 将fragment装进列表中
         fragment_list = new ArrayList<Fragment>();
         fragment_list.add(new RecommendListFragment());
-        fragment_list.add(new InvestListFragment());
         fragment_list.add(new TransferListFragment());
+        fragment_list.add(new ActivityListFragment());
+
 
 
         //TODO 将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
         //UIUtils.getStringArr(@string/licai_tab);
         title_list = new ArrayList<>();
         title_list.add("推荐");
-        title_list.add("投资");
         title_list.add("转让");
+        title_list.add("活动");
+
 
 
         //设置TabLayout的模式（MODE_FIXED 和 MODE_SCROLLABLE）

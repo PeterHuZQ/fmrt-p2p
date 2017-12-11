@@ -4,8 +4,8 @@
     <!--理财模块所有的tab选项-->
     <string-array name="licai_tab">
         <item>推荐</item>
-        <item>投资</item>
         <item>转让</item>
+        <item>活动</item>
     </string-array>
 
     <!-- Xlistview自定义控件使用到的string字符串-->
@@ -15,4 +15,10 @@
     <string name="xlistview_header_last_time">上次更新时间：</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
+    <!-- 活动 -->
+    <string name="str_fmxs_title">富民小善</string>
+    <string name="str_fmxs_content">让我们带着爱与梦想生活</string>
+    <string name="str_recommend_title">推荐有礼</string>
+    <string name="str_recommend_content">邀请新朋友可获现金奖励</string>
 </resources>
