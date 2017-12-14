@@ -164,4 +164,5 @@
     <color name="divider_line">#e1e1e1</color>
 
     <color name="item_grid_bg">#ffe8ecef</color>
+    <color name="red_error">#ef2636</color>
 </resources>

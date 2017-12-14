@@ -33,4 +33,16 @@
         <attr name="title_reset_password_again" format="string"></attr>
         <attr name="title_reset_password_error" format="string"></attr>
     </declare-styleable>
+
+    <!--自定义圆形_圆角ImageView-->
+    <attr name="borderRadius" format="dimension" />
+    <attr name="type">
+        <enum name="circle" value="0" />
+        <enum name="round" value="1" />
+    </attr>
+    <declare-styleable name="RoundImageView">
+        <attr name="borderRadius" />
+        <attr name="type" />
+    </declare-styleable>
+
 </resources>

@@ -6,6 +6,12 @@
     android:background="@color/background_color"
     android:orientation="vertical">
 
+    <!--新手规则的popWindows-->
+    <View
+        android:id="@+id/popup_view"
+        android:layout_width="30dp"
+        android:layout_height="0dp"/>
+
     <FrameLayout
         android:id="@+id/fl_main"
         android:layout_width="match_parent"

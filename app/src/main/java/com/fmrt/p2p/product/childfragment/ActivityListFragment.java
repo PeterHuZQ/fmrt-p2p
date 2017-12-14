@@ -74,13 +74,13 @@ public class ActivityListFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_points_mall:
-                ToastUtil.getInstance().showToast("功能待开放", Toast.LENGTH_SHORT);
+                ToastUtil.getInstance().showToast("积分商城功能待开放", Toast.LENGTH_SHORT);
                 break;
             case R.id.rl_xs:
-                ToastUtil.getInstance().showToast("功能待开放", Toast.LENGTH_SHORT);
+                ToastUtil.getInstance().showToast("富民小善功能待开放", Toast.LENGTH_SHORT);
                 break;
             case R.id.rl_recommend:
-                ToastUtil.getInstance().showToast("功能待开放", Toast.LENGTH_SHORT);
+                ToastUtil.getInstance().showToast("推荐有礼功能待开放", Toast.LENGTH_SHORT);
                 break;
             default:
                 break;

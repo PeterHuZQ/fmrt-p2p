@@ -46,6 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.fmrt.p2p.common.AppNetConfig.PTP_USERMANAGE_BASE_URL;
 
+
 /**
  * 个人中心Fragment
  */
@@ -97,6 +98,7 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
     @Bind(R.id.scrollView)
     ScrollView mScrollView;
 
+    private UserCenterFragment instance;
 
 
     @Override
@@ -108,7 +110,7 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initView()
     {
-
+        instance = this;
     }
 
     /**
@@ -201,6 +203,11 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
         if (userAcctMoyBeanData.getStatus().equals("200"))
         {
             UserAcctMoyBeanData.UserAcctMoy userAcctMoy = userAcctMoyBeanData.getData();
+            //防止Fragment被销毁后请求返回的数据找不到View
+            if (instance == null)
+            {
+                return;
+            }
             mTvAcctRemain.setText(userAcctMoy.getAcctbal() + "");
             mTvInvestRemain.setText(userAcctMoy.getInvebal() + "");
             mTvTotalMoney.setText(userAcctMoy.getTotal() + "");
@@ -341,5 +348,10 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
 
     }
 
-
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        instance = null;
+    }
 }

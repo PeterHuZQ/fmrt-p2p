@@ -4,6 +4,7 @@ import com.fmrt.p2p.index.bean.AnnouncementListBeanData;
 import com.fmrt.p2p.index.bean.ImgListBeanData;
 import com.fmrt.p2p.product.bean.CusContractBeanData;
 import com.fmrt.p2p.product.bean.CusPerInfoBeanData;
+import com.fmrt.p2p.product.bean.FreshRulesBeanData;
 import com.fmrt.p2p.product.bean.RecommendListBeanData;
 import com.fmrt.p2p.product.bean.TransferListBeanData;
 import com.fmrt.p2p.usercenter.bean.ResultBeanData;
@@ -55,6 +56,9 @@ public interface RetrofitService
     @GET("index/announcement")
     Observable<AnnouncementListBeanData> getIndexAnnouncementList();
 
+    //获得新手规则数据
+    @GET("freshman/rules")
+    Observable<FreshRulesBeanData> getFreshRules();
 
     //_____________________________________________________________________________________________
     //获取推荐频道列表数据

@@ -46,17 +46,7 @@ public class ServerManager
     }
 
 
-    //获取投资列表数据
-    public String getInvestData() throws IOException
-    {
-        String url = AppNetConfig.INVEST_URL;
-        Response response = OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute();
-        return response.body().string();
-    }
+
 
 
 
