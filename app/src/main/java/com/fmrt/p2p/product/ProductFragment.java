@@ -14,7 +14,7 @@ import com.fmrt.p2p.product.childfragment.RecommendListFragment;
 import com.fmrt.p2p.product.childfragment.TransferListFragment;
 import java.util.ArrayList;
 import java.util.List;
-import butterknife.Bind;
+import butterknife.BindView;
 
 
 /**
@@ -24,16 +24,16 @@ import butterknife.Bind;
 public class ProductFragment extends BaseFragment
 {
     //公共头布局
-    @Bind(R.id.iv_left)
+    @BindView(R.id.iv_left)
     ImageView iv_left;
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView tv_title;
-    @Bind(R.id.iv_right)
+    @BindView(R.id.iv_right)
     ImageView iv_right;
     //定义TabLayout
-    @Bind(R.id.tab_invest_title)
+    @BindView(R.id.tab_invest_title)
     TabLayout tab_invest_title;
-    @Bind(R.id.vp_invest_pager)
+    @BindView(R.id.vp_invest_pager)
     ViewPager mViewPager;
 
     private List<Fragment> fragment_list;   //定义要装fragment的列表

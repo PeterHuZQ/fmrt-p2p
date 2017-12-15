@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -51,14 +51,14 @@ import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
 public class RecommendListFragment extends BaseFragment implements LoadListView.ILoadListener,NewoPupWindowUtils.PopWindowClickListenler
 {
     //ListView绑定适配器，适配器绑定数据源
-    @Bind(R.id.lv_recommend)
+    @BindView(R.id.lv_recommend)
     LoadListView lv_recommend;
-    @Bind(R.id.llHint)
+    @BindView(R.id.llHint)
     LinearLayout ll_hint;
-    @Bind(R.id.loadingPage)
+    @BindView(R.id.loadingPage)
     LoadingPage mLoadingPage;
     //新手规则按钮
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     ImageView mFab;
 
     //数据源
@@ -78,11 +78,10 @@ public class RecommendListFragment extends BaseFragment implements LoadListView.
     RecommendListAdapter adapter;
 
     //新手规则相关
-    private NewoPupWindowUtils mNewoPupWindowUtils;
-    private WindowManager.LayoutParams mLp;
-    private PopupWindow mPopupWindow;
     private MainActivity mActivity;
-
+    private PopupWindow mPopupWindow;
+    private WindowManager.LayoutParams mLp;
+    private NewoPupWindowUtils mNewoPupWindowUtils;
     private RecommendListFragment instance;
 
     @Override
@@ -98,6 +97,7 @@ public class RecommendListFragment extends BaseFragment implements LoadListView.
 
         //初始化新手规则按钮
         mFab.setVisibility(View.VISIBLE);
+        // 设置背景颜色变暗
         mLp = mActivity.getWindow().getAttributes();
         //新手弹窗帮助类
         mNewoPupWindowUtils = new NewoPupWindowUtils();

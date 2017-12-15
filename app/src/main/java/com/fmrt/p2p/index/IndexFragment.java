@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -50,31 +50,31 @@ import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
 public class IndexFragment extends BaseFragment
 {
     //公共头布局
-    @Bind(R.id.iv_left)
+    @BindView(R.id.iv_left)
     ImageView iv_left;
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView tv_title;
-    @Bind(R.id.iv_right)
+    @BindView(R.id.iv_right)
     ImageView iv_right;
     //横幅广播Banner
-    @Bind(R.id.vp_barner)
+    @BindView(R.id.vp_barner)
     ViewPager vpBarner;
-    @Bind(R.id.circle_barner)
+    @BindView(R.id.circle_barner)
     CirclePageIndicator circleBarner;
-    @Bind(R.id.tvGongGao)
+    @BindView(R.id.tvGongGao)
     VerticalTextview mTvGongGao;
-    @Bind(R.id.textView1)
+    @BindView(R.id.textView1)
     TextView mTextView1;
     //水波纹进度球
-    @Bind(R.id.ripple_progress)
+    @BindView(R.id.ripple_progress)
     RippleProgress mRippleProgress;
-    @Bind(R.id.p_yearlv)
+    @BindView(R.id.p_yearlv)
     TextView mPYearlv;
-    @Bind(R.id.button1)
+    @BindView(R.id.button1)
     Button mButton1;
-    @Bind(R.id.myscrollview)
+    @BindView(R.id.myscrollview)
     MyScrollView mMyscrollview;
-    @Bind(R.id.loadingPage)
+    @BindView(R.id.loadingPage)
     LoadingPage mLoadingPage;
 
 
@@ -83,6 +83,8 @@ public class IndexFragment extends BaseFragment
     //返回的数据
     private List<ImgListBeanData.BannerInfo> bannerInfo_list;
     private List<AnnouncementListBeanData.Announcement> announcement_list;
+
+    private IndexFragment instance;
 
     @Override
     protected int getLayoutId()
@@ -93,6 +95,8 @@ public class IndexFragment extends BaseFragment
     @Override
     protected void initView()
     {
+        instance = this;
+
         //初始化头布局
         initTitle();
         //开始波纹
@@ -158,6 +162,11 @@ public class IndexFragment extends BaseFragment
             @Override
             public void onComplete()
             {
+                //防止Fragment被销毁后请求返回的数据找不到View
+                if (instance == null)
+                {
+                    return;
+                }
                 mLoadingPage.setVisibility(View.GONE);
             }
         };
@@ -185,7 +194,13 @@ public class IndexFragment extends BaseFragment
         {
             bannerInfo_list = imgListBeanData.getRows();
             if (bannerInfo_list != null)
-            {   //有数据
+            {
+                //防止Fragment被销毁后请求返回的数据找不到View
+                if (instance == null)
+                {
+                    return;
+                }
+                //有数据
                 //创建横幅广播Banner的适配器
                 adapter = new BannerAdapter(mContext, bannerInfo_list);
                 //为图片轮播ViewPager适配数据
@@ -273,7 +288,13 @@ public class IndexFragment extends BaseFragment
         {
             announcement_list = announcementListBeanData.getRows();
             if (announcement_list != null)
-            {   //有数据
+            {
+                //防止Fragment被销毁后请求返回的数据找不到View
+                if (instance == null)
+                {
+                    return;
+                }
+                //有数据
                 ArrayList<String> titles = new ArrayList<>();
                 for (AnnouncementListBeanData.Announcement announcement : announcement_list)
                 {
@@ -290,5 +311,12 @@ public class IndexFragment extends BaseFragment
                 ToastUtil.getInstance().showToast("没有数据", Toast.LENGTH_SHORT);
             }
         }
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        instance = null;
     }
 }

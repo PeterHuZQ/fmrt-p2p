@@ -2,14 +2,22 @@ package com.fmrt.p2p.product.childfragment;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmrt.p2p.R;
+import com.fmrt.p2p.app.MainActivity;
 import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.common.AppConstant;
 import com.fmrt.p2p.product.activity.InvestDetailActivity;
@@ -17,15 +25,18 @@ import com.fmrt.p2p.product.adapter.TransferListAdapter;
 import com.fmrt.p2p.product.bean.ContractInfo;
 import com.fmrt.p2p.product.bean.TransferListBeanData;
 import com.fmrt.p2p.service.RetrofitService;
-import com.fmrt.p2p.util.ToastUtil;
+import com.fmrt.p2p.util.NewoPupWindowUtils;
+import com.fmrt.p2p.util.NewoPupWindowUtilsForSearch;
 import com.fmrt.p2p.widget.LoadListView;
 import com.fmrt.p2p.widget.LoadingPage;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,41 +55,45 @@ import static com.fmrt.p2p.common.AppNetConfig.PTP_INVEST_BASE_URL;
  * 转让列表
  */
 
-public class TransferListFragment extends BaseFragment implements LoadListView.ILoadListener, View.OnClickListener
+public class TransferListFragment extends BaseFragment implements LoadListView.ILoadListener, View.OnClickListener ,NewoPupWindowUtilsForSearch.PopWindowClickListenler
 {
-    //筛选
-    @Bind(R.id.chooseRate)
+    //排序
+    @BindView(R.id.chooseRate)
     TextView chooseRate;
-    @Bind(R.id.year_imageup)
+    @BindView(R.id.year_imageup)
     ImageView year_imageup;
-    @Bind(R.id.year_imagedown)
+    @BindView(R.id.year_imagedown)
     ImageView year_imagedown;
-    @Bind(R.id.chooseTime)
+    @BindView(R.id.chooseTime)
     TextView chooseTime;
-    @Bind(R.id.time_imageup)
+    @BindView(R.id.time_imageup)
     ImageView time_imageup;
-    @Bind(R.id.time_imagedown)
+    @BindView(R.id.time_imagedown)
     ImageView time_imagedown;
-    @Bind(R.id.chooseMoney)
+    @BindView(R.id.chooseMoney)
     TextView chooseMoney;
-    @Bind(R.id.money_imageup)
+    @BindView(R.id.money_imageup)
     ImageView money_imageup;
-    @Bind(R.id.money_imagedown)
+    @BindView(R.id.money_imagedown)
     ImageView money_imagedown;
-    @Bind(R.id.custom_item)
+    //筛选
+    @BindView(R.id.custom_item)
     TextView mCustomItem;
 
+
+
     //ListView绑定适配器，适配器绑定数据源
-    @Bind(R.id.lv_transfer)
+    @BindView(R.id.lv_transfer)
     LoadListView lv_transfer;
-    @Bind(R.id.llHint)
+    @BindView(R.id.llHint)
     LinearLayout ll_hint;
-    @Bind(R.id.loadingPage)
+    @BindView(R.id.loadingPage)
     LoadingPage mLoadingPage;
 
 
     //数据源
     List<ContractInfo> transfer_list = new ArrayList<>();
+
 
 
     //返回的数据
@@ -90,7 +105,13 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
 
     TransferListAdapter adapter;
 
+    //转让频道自定义排序筛选相关
     private String rateOrder = "", dueDateOrder = "", capitalOrder = "", timeStart = "", timeEnd = "", moneyStart = "", moneyEnd = "", rateStart = "", rateEnd = "";
+    private MainActivity mActivity;
+    private PopupWindow mPopupWindow;
+    private WindowManager.LayoutParams mLp;
+    private NewoPupWindowUtilsForSearch mNewoPupWindowUtilsForSearch;
+
 
 
     @Override
@@ -102,6 +123,13 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     @Override
     protected void initView()
     {
+        mActivity = (MainActivity) getActivity();
+        // 设置背景颜色变暗
+        mLp = mActivity.getWindow().getAttributes();
+        //筛选弹窗帮助类
+        mNewoPupWindowUtilsForSearch = new NewoPupWindowUtilsForSearch();
+        //初始化新手弹窗布局
+        mPopupWindow = mNewoPupWindowUtilsForSearch.initpopwindow(mActivity,this);
 
     }
 
@@ -109,7 +137,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     public void initData()
     {
         //联网请求数据
-        getDataByRetrofitAndRxJava("5",dueDateOrder,capitalOrder,rateOrder);
+        getDataByRetrofitAndRxJava("5", dueDateOrder, capitalOrder, rateOrder);
         //给ListView设置ILoadListener
         lv_transfer.setInterface(this);
         //给ListView设置适配器adapter
@@ -120,7 +148,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     /**
      * 用RxJava和Retrofit获取数据转让频道列表数据
      */
-    private void getDataByRetrofitAndRxJava(String num,String dueDateOrder,String capitalOrder,String rateOrder)
+    private void getDataByRetrofitAndRxJava(String num, String dueDateOrder, String capitalOrder, String rateOrder)
     {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.connectTimeout(5, TimeUnit.SECONDS);
@@ -283,7 +311,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     private void getLoadData()
     {
         num = Integer.parseInt(num) + 5 + "";
-        getDataByRetrofitAndRxJava(num,dueDateOrder,capitalOrder,rateOrder);
+        getDataByRetrofitAndRxJava(num, dueDateOrder, capitalOrder, rateOrder);
     }
 
     //筛选点击事件
@@ -310,7 +338,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
                     setImageUpDown(year_imageup, year_imagedown, false, false);
                     chooseRate.setSelected(false);
                 }
-                getDataByRetrofitAndRxJava("5",dueDateOrder,capitalOrder,rateOrder);
+                getDataByRetrofitAndRxJava("5", dueDateOrder, capitalOrder, rateOrder);
                 break;
             //到期时间
             case R.id.chooseTime:
@@ -330,7 +358,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
                     setImageUpDown(time_imageup, time_imagedown, false, false);
                     chooseTime.setSelected(false);
                 }
-                getDataByRetrofitAndRxJava("5",dueDateOrder,capitalOrder,rateOrder);
+                getDataByRetrofitAndRxJava("5", dueDateOrder, capitalOrder, rateOrder);
                 break;
             //资金
             case R.id.chooseMoney:
@@ -351,12 +379,13 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
                     setImageUpDown(money_imageup, money_imagedown, false, false);
                     chooseMoney.setSelected(false);
                 }
-                getDataByRetrofitAndRxJava("5",dueDateOrder,capitalOrder,rateOrder);
+                getDataByRetrofitAndRxJava("5", dueDateOrder, capitalOrder, rateOrder);
                 break;
 
             // 筛选
             case R.id.custom_item:
-                ToastUtil.getInstance().showToast( "跳出自定义筛选", Toast.LENGTH_SHORT);
+                //ToastUtil.getInstance().showToast( "跳出自定义筛选", Toast.LENGTH_SHORT);
+                showPopWindows();
                 break;
         }
     }
@@ -368,4 +397,37 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
         imagedown.setSelected(b);
     }
 
+    /**
+     * 显示筛选的popWindows
+     */
+    private void showPopWindows()
+    {
+        //获得跟视图View
+        View view = mActivity.getWindow().getDecorView().findViewById(R.id.popup_view);
+        mPopupWindow.showAsDropDown(view, 0, 0);
+        // 设置背景颜色变暗
+        mLp.alpha = 0.7f;
+        mActivity.getWindow().setAttributes(mLp);
+    }
+
+    /**
+     * popwindow 的View的点击事件
+     * @param view
+     */
+    @Override
+    public void popClick(View view)
+    {
+        switch (view.getId()){
+
+            //让布局消失
+            case R.id.disappear:
+                mPopupWindow.dismiss();
+                break;
+            //重置数据
+            case R.id.bt_restore:
+                mNewoPupWindowUtilsForSearch.restoreData();
+                mNewoPupWindowUtilsForSearch.restoreAllClickView();
+                break;
+        }
+    }
 }

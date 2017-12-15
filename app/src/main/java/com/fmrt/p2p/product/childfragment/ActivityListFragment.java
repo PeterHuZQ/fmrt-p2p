@@ -11,8 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmrt.p2p.base.BaseFragment;
-import butterknife.Bind;
-import butterknife.OnClick;
+import butterknife.BindView;
 
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.util.ToastUtil;
@@ -26,7 +25,7 @@ public class ActivityListFragment extends BaseFragment implements View.OnClickLi
 {
 
 
-    @Bind(R.id.footerListView)
+    @BindView(R.id.footerListView)
     ListView mLvContent;
 
     private ImageView ivPointsMall;

@@ -165,4 +165,7 @@
 
     <color name="item_grid_bg">#ffe8ecef</color>
     <color name="red_error">#ef2636</color>
+
+    <color name="background_color_yellow">#e5f99e43</color>
+    <color name="background_seletedButtom">#fff3e5</color>
 </resources>

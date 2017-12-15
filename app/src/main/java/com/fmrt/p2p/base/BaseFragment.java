@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.fmrt.p2p.util.UIUtils;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 基类Fragment,
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment
 {
      public View view;
-
+     private Unbinder unbinder;
     /**
      * 负责UI的创建
      * @param inflater
@@ -34,7 +35,7 @@ public abstract class BaseFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //指定布局
         view = UIUtils.getXmlView(getLayoutId());
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         //1、初始化控件
         initView();
         //2、初始化数据
@@ -68,7 +69,7 @@ public abstract class BaseFragment extends Fragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
 }

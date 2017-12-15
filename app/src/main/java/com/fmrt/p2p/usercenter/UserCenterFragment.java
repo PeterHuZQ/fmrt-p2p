@@ -30,10 +30,8 @@ import com.fmrt.p2p.usercenter.bean.UserAcctMoyBeanData;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
 import com.fmrt.p2p.util.ToastUtil;
 import com.fmrt.p2p.widget.MyGridView;
-
 import java.util.concurrent.TimeUnit;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -54,48 +52,48 @@ import static com.fmrt.p2p.common.AppNetConfig.PTP_USERMANAGE_BASE_URL;
 public class UserCenterFragment extends BaseFragment implements View.OnClickListener
 {
     // 用户头像
-    @Bind(R.id.imgHead)
+    @BindView(R.id.imgHead)
     ImageView imgHead;
-    @Bind(R.id.tvMessages)
+    @BindView(R.id.tvMessages)
     TextView mTvMessages;
     //“设置”按钮
-    @Bind(R.id.tvSetting)
+    @BindView(R.id.tvSetting)
     TextView mTvSetting;
-    @Bind(R.id.imgDisplay)
+    @BindView(R.id.imgDisplay)
     ImageView mImgDisplay;
-    @Bind(R.id.llToAccountRemain)
+    @BindView(R.id.llToAccountRemain)
     LinearLayout mLlToAccountRemain;
     //前台用户账号金额信息
-    @Bind(R.id.tvAcctRemain)
+    @BindView(R.id.tvAcctRemain)
     TextView mTvAcctRemain;    //账户余额
-    @Bind(R.id.tvInvestRemain)
+    @BindView(R.id.tvInvestRemain)
     TextView mTvInvestRemain;  //投资余额
-    @Bind(R.id.tvTotalMoney)
+    @BindView(R.id.tvTotalMoney)
     TextView mTvTotalMoney;    //总资产
-    @Bind(R.id.textView)
+    @BindView(R.id.textView)
     TextView mTextView;
-    @Bind(R.id.llToMyInvest)
+    @BindView(R.id.llToMyInvest)
     LinearLayout mLlToMyInvest;
     //“提现”按钮
-    @Bind(R.id.llGetMoney)
+    @BindView(R.id.llGetMoney)
     LinearLayout mLLGetMoney;
-    @Bind(R.id.llPutMoney)
+    @BindView(R.id.llPutMoney)
     LinearLayout mLlPutMoney;
-    @Bind(R.id.rlMyInvest)
+    @BindView(R.id.rlMyInvest)
     RelativeLayout mRlMyInvest;
-    @Bind(R.id.tvHolding)
+    @BindView(R.id.tvHolding)
     TextView mTvHolding;
-    @Bind(R.id.tvCollection)
+    @BindView(R.id.tvCollection)
     TextView mTvCollection;
-    @Bind(R.id.tvTranslate)
+    @BindView(R.id.tvTranslate)
     TextView mTvTranslate;
-    @Bind(R.id.tvEnd)
+    @BindView(R.id.tvEnd)
     TextView mTvEnd;
-    @Bind(R.id.gv_user)
+    @BindView(R.id.gv_user)
     MyGridView gv_user;
-    @Bind(R.id.llMain)
+    @BindView(R.id.llMain)
     LinearLayout mLlMain;
-    @Bind(R.id.scrollView)
+    @BindView(R.id.scrollView)
     ScrollView mScrollView;
 
     private UserCenterFragment instance;

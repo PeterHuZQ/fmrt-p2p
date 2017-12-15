@@ -35,4 +35,11 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+    <!-- 转让筛选自定义视图pupupwindow的弹出和消失动画 -->
+    <style name="popup_window_anim">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_right_left</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_left_rigth</item>
+    </style>
+
 </resources>

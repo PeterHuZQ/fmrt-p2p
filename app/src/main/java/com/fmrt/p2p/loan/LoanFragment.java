@@ -11,13 +11,11 @@ import com.fmrt.p2p.base.BaseFragment;
 import com.fmrt.p2p.common.AppConstant;
 import com.fmrt.p2p.loan.adapter.LoanProductListAdapter;
 import com.fmrt.p2p.loan.bean.LoanData;
-import com.fmrt.p2p.product.adapter.RecommendListAdapter;
 import com.fmrt.p2p.util.ToastUtil;
 import com.fmrt.p2p.widget.LoadListView;
 
 import java.util.ArrayList;
-
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * 贷款产品列表Fragment
@@ -27,13 +25,13 @@ public class LoanFragment extends BaseFragment implements LoadListView.ILoadList
 {
 
     //ListView绑定适配器，适配器绑定数据源
-    @Bind(R.id.lv_loanproduct)
+    @BindView(R.id.lv_loanproduct)
     LoadListView lv_loanproduct;
-    @Bind(R.id.iv_left)
+    @BindView(R.id.iv_left)
     ImageView mIvLeft;
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView mTvTitle;
-    @Bind(R.id.iv_right)
+    @BindView(R.id.iv_right)
     ImageView mIvRight;
 
     LoanProductListAdapter adapter;
