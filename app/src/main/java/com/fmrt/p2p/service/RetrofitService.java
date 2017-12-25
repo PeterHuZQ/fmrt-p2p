@@ -2,6 +2,7 @@ package com.fmrt.p2p.service;
 
 import com.fmrt.p2p.index.bean.AnnouncementListBeanData;
 import com.fmrt.p2p.index.bean.ImgListBeanData;
+import com.fmrt.p2p.product.bean.ActivityListBeanData;
 import com.fmrt.p2p.product.bean.CusContractBeanData;
 import com.fmrt.p2p.product.bean.CusPerInfoBeanData;
 import com.fmrt.p2p.product.bean.FreshRulesBeanData;
@@ -84,6 +85,10 @@ public interface RetrofitService
                                                        @Query("dueDateOrder") String dueDateOrder,@Query("capitalOrder") String capitalOrder,@Query("rateOrder") String rateOrder);
 
 
+    //_____________________________________________________________________________________________
+    //获取推荐频道列表数据
+    @GET("activity/findActivityList")
+    Observable<ActivityListBeanData> findActivityList();
 
 
 

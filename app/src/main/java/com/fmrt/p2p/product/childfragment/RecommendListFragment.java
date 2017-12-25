@@ -41,7 +41,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 import static com.fmrt.p2p.common.AppNetConfig.PTP_LOAN_BASE_URL;
 
 /**
@@ -93,6 +92,8 @@ public class RecommendListFragment extends BaseFragment implements LoadListView.
     @Override
     protected void initView()
     {
+        instance = this;
+
         mActivity = (MainActivity) getActivity();
 
         //初始化新手规则按钮
@@ -274,6 +275,11 @@ public class RecommendListFragment extends BaseFragment implements LoadListView.
             {
                 //获取更多数据
                 getLoadData();
+                //防止Fragment被销毁后请求返回的数据找不到View
+                if (instance == null)
+                {
+                    return;
+                }
                 //通知listview加载完毕
                 lv_recommend.loadComplete();
             }

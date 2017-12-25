@@ -2,20 +2,13 @@ package com.fmrt.p2p.product.childfragment;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.app.MainActivity;
 import com.fmrt.p2p.base.BaseFragment;
@@ -25,17 +18,12 @@ import com.fmrt.p2p.product.adapter.TransferListAdapter;
 import com.fmrt.p2p.product.bean.ContractInfo;
 import com.fmrt.p2p.product.bean.TransferListBeanData;
 import com.fmrt.p2p.service.RetrofitService;
-import com.fmrt.p2p.util.NewoPupWindowUtils;
 import com.fmrt.p2p.util.NewoPupWindowUtilsForSearch;
 import com.fmrt.p2p.widget.LoadListView;
 import com.fmrt.p2p.widget.LoadingPage;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observer;
@@ -48,7 +36,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 import static com.fmrt.p2p.common.AppNetConfig.PTP_INVEST_BASE_URL;
 
 /**
@@ -112,6 +99,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     private WindowManager.LayoutParams mLp;
     private NewoPupWindowUtilsForSearch mNewoPupWindowUtilsForSearch;
 
+    private TransferListFragment instance;
 
 
     @Override
@@ -123,6 +111,8 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     @Override
     protected void initView()
     {
+        instance = this;
+
         mActivity = (MainActivity) getActivity();
         // 设置背景颜色变暗
         mLp = mActivity.getWindow().getAttributes();
@@ -189,6 +179,11 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
             @Override
             public void onComplete()
             {
+                //防止Fragment被销毁后请求返回的数据找不到View
+                if (instance == null)
+                {
+                    return;
+                }
                 mLoadingPage.setVisibility(View.GONE);
             }
         };
@@ -221,7 +216,13 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
         {
             resultBean = transferListBeanData.getRows();
             if (resultBean != null)
-            {   //有数据
+            {
+                //防止Fragment被销毁后请求返回的数据找不到View
+                if (instance == null)
+                {
+                    return;
+                }
+                //有数据
                 transfer_list.clear();
                 for (int i = transfer_list.size(); i < resultBean.size(); i++)
                 {
@@ -253,7 +254,11 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
      */
     private void initListener()
     {
-
+        //防止Fragment被销毁后请求返回的数据找不到View
+        if (instance == null)
+        {
+            return;
+        }
         lv_transfer.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -428,6 +433,53 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
                 mNewoPupWindowUtilsForSearch.restoreData();
                 mNewoPupWindowUtilsForSearch.restoreAllClickView();
                 break;
+            //年利率tab  1.首先判断有没有光标在2个edt 里面,没有taost
+            // 2.如果有直接将点击的数据赋值,如果是第一个ed 赋值以后跳转到第二个edt 清空tab状态 如果是第二个直接赋值
+            case R.id.tv_year_tab1:
+                mNewoPupWindowUtilsForSearch.ChangeDataET("5.1");
+                break;
+            case R.id.tv_year_tab2:
+                mNewoPupWindowUtilsForSearch.ChangeDataET("5.4");
+                break;
+            case R.id.tv_year_tab3:
+                mNewoPupWindowUtilsForSearch.ChangeDataET("5.7");
+                break;
+            case R.id.tv_year_tab4:
+                mNewoPupWindowUtilsForSearch.ChangeDataET("6.0");
+                break;
+            //时间的tab
+            case R.id.tv_month_tab1:
+                mNewoPupWindowUtilsForSearch.setMonthTextDate( "0", "3");
+                break;
+            case R.id.tv_month_tab2:
+                mNewoPupWindowUtilsForSearch.setMonthTextDate( "4", "6");
+                break;
+            case R.id.tv_month_tab3:
+                mNewoPupWindowUtilsForSearch.setMonthTextDate( "7", "9");
+                break;
+            case R.id.tv_month_tab4:
+                mNewoPupWindowUtilsForSearch.setMonthTextDate( "10", "12");
+                break;
+            //金额的tab
+            case R.id.tv_money_tab1:
+                mNewoPupWindowUtilsForSearch.setMoneyTextDate( "0", "5000");
+                break;
+            case R.id.tv_money_tab2:
+                mNewoPupWindowUtilsForSearch.setMoneyTextDate( "5000", "20000");
+                break;
+            case R.id.tv_money_tab3:
+                mNewoPupWindowUtilsForSearch.setMoneyTextDate( "20000", "50000");
+                break;
+            case R.id.tv_money_tab4:
+                mNewoPupWindowUtilsForSearch.setMoneyTextDate( "50000", "");
+                break;
         }
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        instance = null;
     }
 }
