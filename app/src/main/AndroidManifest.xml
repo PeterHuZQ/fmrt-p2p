@@ -26,6 +26,8 @@
     <uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <!--允许程序访问额外的定位提供者指令-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <!-- 允许访问振动设备,Permission to vibrate - recommended, allows vibration feedback on scan -->
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -72,4 +74,18 @@
         <activity android:name="io.card.payment.DataEntryActivity" />
     </application>
 
+    <!--添加友盟appkey-->
+    <meta-data
+        android:name="UMENG_APPKEY"
+        android:value="5975bc83f29d9815f9000aeb" >
+    </meta-data>
+
+    <!--友盟分享-->
+    <!-- wechat callback-->
+    <activity
+        android:name=".wxapi.WXEntryActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:exported="true"
+        android:screenOrientation="portrait"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 </manifest>

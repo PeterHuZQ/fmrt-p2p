@@ -4,6 +4,12 @@ apply plugin: 'android-apt'
 android {
     compileSdkVersion 22
     buildToolsVersion "25.0.2"
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     defaultConfig {
         applicationId "com.fmrt.p2p"
         minSdkVersion 16

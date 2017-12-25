@@ -9,6 +9,8 @@ import com.fmrt.p2p.util.CacheProviders;
 import com.fmrt.p2p.util.Model;
 import com.fmrt.p2p.util.PrefUtils;
 import com.fmrt.p2p.util.ToastUtil;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -28,6 +30,11 @@ public class P2PApplication extends Application
     public static Thread mainThread = null;
 
     public static int mainThreadId = 0;
+
+    //友盟相关初始化
+    {
+        PlatformConfig.setWeixin("wx310519db15733fea", "1");
+    }
 
     public static Context getContext() {
         return mContext;
@@ -57,10 +64,11 @@ public class P2PApplication extends Application
         //初始化OkhttpUtils
         initOkhttpClient();
 
-
-
         //初始化缓存CacheProviders
         CacheProviders.getInstance().init(this);
+
+        //友盟初始化
+        initUMeng();
 
     }
 
@@ -74,5 +82,11 @@ public class P2PApplication extends Application
                 .build();
 
         OkHttpUtils.initClient(okHttpClient);
+    }
+
+
+    private void initUMeng() {
+        //友盟分享初始化
+        UMShareAPI.get(this);
     }
 }
