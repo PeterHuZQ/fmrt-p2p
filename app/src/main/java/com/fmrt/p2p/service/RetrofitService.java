@@ -100,4 +100,8 @@ public interface RetrofitService
     //通过userid查询银行卡详情
     @GET("rest/accoutsInfo/{userid}")
     Observable<UserAcctBeanData> getCardsInfoByUserid(@Path("userid") String userid);
+
+    //通过userid获取图形验证码
+    @GET("myqrcode/showimg/{userid}")
+    Observable<ResponseBody> showMyQrcode(@Path("userid") String userid);
 }
