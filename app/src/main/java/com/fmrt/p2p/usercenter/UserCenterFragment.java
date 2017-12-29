@@ -28,10 +28,13 @@ import com.fmrt.p2p.usercenter.activity.mybankcard.BankHomeActivity;
 import com.fmrt.p2p.usercenter.adapter.UserCenterFragmentAdapter;
 import com.fmrt.p2p.usercenter.bean.UserAcctMoyBeanData;
 import com.fmrt.p2p.usercenter.bean.UserBeanData;
+import com.fmrt.p2p.util.NumberUtils;
+import com.fmrt.p2p.util.PrefUtils;
 import com.fmrt.p2p.util.ToastUtil;
 import com.fmrt.p2p.widget.MyGridView;
 import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -60,7 +63,7 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
     @BindView(R.id.tvSetting)
     TextView mTvSetting;
     @BindView(R.id.imgDisplay)
-    ImageView mImgDisplay;
+    ImageView imgDisplay;
     @BindView(R.id.llToAccountRemain)
     LinearLayout mLlToAccountRemain;
     //前台用户账号金额信息
@@ -98,6 +101,11 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
 
     private UserCenterFragment instance;
 
+    private UserBeanData.DataBean user;
+
+    private String totalMoney = "0" ;    //总资产
+    private String investRemain = "0";  //投资余额
+    private String acctRemain = "0";    //账户余额
 
     @Override
     protected int getLayoutId()
@@ -132,8 +140,8 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
         //判断有没有登录,这里注释掉就不需要登录了
         isLogin();
 
-        UserBeanData.DataBean user = ((BaseActivity) getActivity()).getUserInfo();
         //联网请求数据
+        user = ((BaseActivity) getActivity()).getUserInfo();
         getDataByRetrofitAndRxJava(user.getUuid());
     }
 
@@ -206,9 +214,15 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
             {
                 return;
             }
-            mTvAcctRemain.setText(userAcctMoy.getAcctbal() + "");
-            mTvInvestRemain.setText(userAcctMoy.getInvebal() + "");
-            mTvTotalMoney.setText(userAcctMoy.getTotal() + "");
+            //NumberUtils.getNumberWithComma把整数保留两位小数
+            mTvAcctRemain.setText(NumberUtils.getNumberWithComma(userAcctMoy.getAcctbal() + ""));
+            mTvInvestRemain.setText(NumberUtils.getNumberWithComma(userAcctMoy.getInvebal() + ""));
+            mTvTotalMoney.setText(NumberUtils.getNumberWithComma(userAcctMoy.getTotal() + ""));
+
+            totalMoney=userAcctMoy.getTotal()+ "";   //总资产
+            investRemain=userAcctMoy.getInvebal() + "";  //投资余额
+            acctRemain=userAcctMoy.getAcctbal() + "";    //账户余额
+
         } else
         {
             ToastUtil.getInstance().showToast("系统繁忙", Toast.LENGTH_SHORT);
@@ -219,10 +233,6 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
     //初始化监听
     private void initListener()
     {
-        imgHead.setOnClickListener(this);
-        mTvSetting.setOnClickListener(this);
-        mLLGetMoney.setOnClickListener(this);
-
         //个人中心九宫格
         gv_user.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -266,6 +276,7 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
         });
     }
 
+    @OnClick({R.id.imgHead, R.id.tvSetting, R.id.llGetMoney, R.id.imgDisplay})
     @Override
     public void onClick(View v)
     {
@@ -282,6 +293,23 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
             case R.id.llGetMoney:
                 //ToastUtil.getInstance().showToast( "跳转到提现页面",Toast.LENGTH_SHORT);
                 ((BaseActivity) getActivity()).gotoActivity(WithdrawActivity.class, null);
+                break;
+            case R.id.imgDisplay:
+                PrefUtils.getInstance().setBoolean("secretEye"+user.getUuid(),!PrefUtils.getInstance().getBoolean("secretEye"+user.getUuid(),false));
+                //第一次点击getBoolean()得到默认值：false
+                if(PrefUtils.getInstance().getBoolean("secretEye"+user.getUuid(),false)){
+
+                    mTvTotalMoney.setText(NumberUtils.getNumberWithComma(totalMoney));// 总资产
+                    mTvInvestRemain.setText(NumberUtils.getNumberWithComma(investRemain));// 投资余额
+                    mTvAcctRemain.setText(NumberUtils.getNumberWithComma(acctRemain));// 账户余额
+                    imgDisplay.setImageResource(R.drawable.uesr_dispaly);
+                }
+                else{
+                    mTvTotalMoney.setText("*****");    //总资产
+                    mTvInvestRemain.setText("*****");  //投资余额
+                    mTvAcctRemain.setText("*****");    //账户余额
+                    imgDisplay.setImageResource(R.drawable.uesr_hide);
+                }
                 break;
         }
     }
