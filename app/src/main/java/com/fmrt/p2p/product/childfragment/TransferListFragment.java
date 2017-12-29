@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.fmrt.p2p.R;
 import com.fmrt.p2p.app.MainActivity;
 import com.fmrt.p2p.base.BaseFragment;
@@ -18,6 +19,7 @@ import com.fmrt.p2p.product.adapter.TransferListAdapter;
 import com.fmrt.p2p.product.bean.ContractInfo;
 import com.fmrt.p2p.product.bean.TransferListBeanData;
 import com.fmrt.p2p.service.RetrofitService;
+import com.fmrt.p2p.util.DateUtils;
 import com.fmrt.p2p.util.NewoPupWindowUtilsForSearch;
 import com.fmrt.p2p.widget.LoadListView;
 import com.fmrt.p2p.widget.LoadingPage;
@@ -93,7 +95,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     TransferListAdapter adapter;
 
     //转让频道自定义排序筛选相关
-    private String rateOrder = "", dueDateOrder = "", capitalOrder = "", timeStart = "", timeEnd = "", moneyStart = "", moneyEnd = "", rateStart = "", rateEnd = "";
+    private String rateOrder = "", dueDateOrder = "", capitalOrder = "", moneyStart = "", moneyEnd = "",timeStart = "", timeEnd = "", rateStart = "", rateEnd = "";
     private MainActivity mActivity;
     private PopupWindow mPopupWindow;
     private WindowManager.LayoutParams mLp;
@@ -118,7 +120,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
         mLp = mActivity.getWindow().getAttributes();
         //筛选弹窗帮助类
         mNewoPupWindowUtilsForSearch = new NewoPupWindowUtilsForSearch();
-        //初始化新手弹窗布局
+        //初始化筛选弹窗布局
         mPopupWindow = mNewoPupWindowUtilsForSearch.initpopwindow(mActivity,this);
 
     }
@@ -127,7 +129,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     public void initData()
     {
         //联网请求数据
-        getDataByRetrofitAndRxJava("5", dueDateOrder, capitalOrder, rateOrder);
+        getDataByRetrofitAndRxJava("5", timeStart,timeEnd, moneyStart,moneyEnd,rateStart,rateEnd,dueDateOrder, capitalOrder, rateOrder);
         //给ListView设置ILoadListener
         lv_transfer.setInterface(this);
         //给ListView设置适配器adapter
@@ -138,7 +140,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     /**
      * 用RxJava和Retrofit获取数据转让频道列表数据
      */
-    private void getDataByRetrofitAndRxJava(String num, String dueDateOrder, String capitalOrder, String rateOrder)
+    private void getDataByRetrofitAndRxJava(String num, String timeStart,String timeEnd, String moneyStart,String moneyEnd,String rateStart,String rateEnd,String dueDateOrder, String capitalOrder, String rateOrder)
     {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.connectTimeout(5, TimeUnit.SECONDS);
@@ -189,7 +191,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
         };
 
         //调用findTransferInfoByWhere()获取转让频道列表数据
-        service.findTransferInfoByWhere(num, "", "", "", "", "", "", dueDateOrder, capitalOrder, rateOrder)
+        service.findTransferInfoByWhere(num, timeStart, timeEnd, moneyStart, moneyEnd, rateStart, rateEnd, dueDateOrder, capitalOrder, rateOrder)
                 .doOnSubscribe(new Consumer<Disposable>()
                 {
                     //doOnSubscribe用于在call之前执行一些初始化操作
@@ -316,7 +318,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
     private void getLoadData()
     {
         num = Integer.parseInt(num) + 5 + "";
-        getDataByRetrofitAndRxJava(num, dueDateOrder, capitalOrder, rateOrder);
+        getDataByRetrofitAndRxJava(num, timeStart,timeEnd, moneyStart,moneyEnd,rateStart,rateEnd,dueDateOrder, capitalOrder, rateOrder);
     }
 
     //筛选点击事件
@@ -343,7 +345,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
                     setImageUpDown(year_imageup, year_imagedown, false, false);
                     chooseRate.setSelected(false);
                 }
-                getDataByRetrofitAndRxJava("5", dueDateOrder, capitalOrder, rateOrder);
+                getDataByRetrofitAndRxJava("5", timeStart,timeEnd, moneyStart,moneyEnd,rateStart,rateEnd,dueDateOrder, capitalOrder, rateOrder);
                 break;
             //到期时间
             case R.id.chooseTime:
@@ -363,7 +365,8 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
                     setImageUpDown(time_imageup, time_imagedown, false, false);
                     chooseTime.setSelected(false);
                 }
-                getDataByRetrofitAndRxJava("5", dueDateOrder, capitalOrder, rateOrder);
+                getDataByRetrofitAndRxJava("5", timeStart,timeEnd, moneyStart,moneyEnd,rateStart,rateEnd,dueDateOrder, capitalOrder, rateOrder);
+
                 break;
             //资金
             case R.id.chooseMoney:
@@ -384,7 +387,7 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
                     setImageUpDown(money_imageup, money_imagedown, false, false);
                     chooseMoney.setSelected(false);
                 }
-                getDataByRetrofitAndRxJava("5", dueDateOrder, capitalOrder, rateOrder);
+                getDataByRetrofitAndRxJava("5", timeStart,timeEnd, moneyStart,moneyEnd,rateStart,rateEnd,dueDateOrder, capitalOrder, rateOrder);
                 break;
 
             // 筛选
@@ -473,6 +476,53 @@ public class TransferListFragment extends BaseFragment implements LoadListView.I
             case R.id.tv_money_tab4:
                 mNewoPupWindowUtilsForSearch.setMoneyTextDate( "50000", "");
                 break;
+            //确认按钮
+            case R.id.bt_submit:
+                //做完校验执行
+                if ( mNewoPupWindowUtilsForSearch.checkData() && mNewoPupWindowUtilsForSearch.checkSubmitData()) {
+                    ArrayList<String> mCustomTaskData=mNewoPupWindowUtilsForSearch.getFilterParams();
+                    moneyStart = mCustomTaskData.get(0);
+                    moneyEnd = mCustomTaskData.get(1);
+                    //现在的时间
+                    setCurrentStartMonth(mCustomTaskData.get(2));
+                    setCurrentEndMonth(mCustomTaskData.get(3));
+                    rateStart = mCustomTaskData.get(4);
+                    rateEnd = mCustomTaskData.get(5);
+                    mPopupWindow.dismiss();
+                    //请求后台接口
+                    getDataByRetrofitAndRxJava("5", timeStart,timeEnd, moneyStart,moneyEnd,rateStart,rateEnd,dueDateOrder, capitalOrder, rateOrder);
+                }
+                break;
+        }
+    }
+
+    private void setCurrentStartMonth(String s) {
+        if (!s.equals(" ") && !s.equals("")) {
+            int currentMonth = Integer.parseInt(DateUtils.getMonth());
+            int year = Integer.parseInt(DateUtils.getYear());
+            int month = currentMonth + Integer.parseInt(s);
+            if (month > 12) {
+                year++;
+                month = month - 12;
+            }
+            timeStart = year + "-" + month + "-" + DateUtils.getDay();
+        } else {
+            timeStart = "";
+        }
+    }
+
+    private void setCurrentEndMonth(String s) {
+        if (!s.equals(" ") && !s.equals("")) {
+            int currentMonth = Integer.parseInt(DateUtils.getMonth());
+            int year = Integer.parseInt(DateUtils.getYear());
+            int month = currentMonth + Integer.parseInt(s);
+            if (month > 12) {
+                year++;
+                month = month - 12;
+            }
+            timeEnd = year + "-" + month + "-" + DateUtils.getDay();
+        } else {
+            timeEnd = "";
         }
     }
 
